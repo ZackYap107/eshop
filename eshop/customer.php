@@ -19,15 +19,15 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO products SET name=:name, date=:dob, created=:created";
+                $query = "INSERT INTO customers SET name=:name, dob=:dob, created=:created";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                $date = htmlspecialchars(strip_tags($_POST['date']));
+                $dob = htmlspecialchars(strip_tags($_POST['dob']));
                 // bind the parameters
                 $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':date', $dob);
+                $stmt->bindParam(':dob', $dob);
                 // specify when this record was inserted to the database
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td>dob</td>
-                        <td><input type='text' name='dob' class='form-control' /></td>
+                        <td><input type='date' name='dob' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td></td>
