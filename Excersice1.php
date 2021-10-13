@@ -2,7 +2,7 @@
 	<html>
 		<body>
 			<?php
-				echo "Zack Yap"; 
+				echo "<b>Zack Yap</b>"; 
 				echo "<br>";
 				echo "DDM201-007";
 			?>
