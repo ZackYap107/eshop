@@ -10,6 +10,10 @@
 				echo "<br>";
 				echo date("l jS \of F Y");
 				//today date
+				echo "<br>";
+				$age = "21 years old";
+				echo "I am $age !";
+				//my age
 			?>
 		</body>
 	</html>
