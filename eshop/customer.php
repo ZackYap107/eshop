@@ -19,7 +19,7 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO customers SET name=:name, dob=:dob, created=:created";
+                $query = "INSERT INTO customers SET name=:name, dob=:dob";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
@@ -29,8 +29,8 @@
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':dob', $dob);
                 // specify when this record was inserted to the database
-                $created = date('Y-m-d H:i:s');
-                $stmt->bindParam(':created', $created);
+                //$created = date('Y-m-d H:i:s');
+                //$stmt->bindParam(':created', $created);
                 // Execute the query
                 if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was saved.</div>";
