@@ -19,15 +19,25 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO customers SET name=:name, dob=:dob";
+                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:dob, AccountStatus=:AccountStatus";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
-                $name = htmlspecialchars(strip_tags($_POST['name']));
+                $Username = htmlspecialchars(strip_tags($_POST['Username']));
+                $Password = htmlspecialchars(strip_tags($_POST['Password']));
+                $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
+                $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
+                $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
                 $dob = htmlspecialchars(strip_tags($_POST['dob']));
+                $AccountStatus = htmlspecialchars(strip_tags($_POST['AccountStatus']));
                 // bind the parameters
-                $stmt->bindParam(':name', $name);
+                $stmt->bindParam(':Username', $Username);
+                $stmt->bindParam(':Password', $Password);
+                $stmt->bindParam(':FirstName', $FirstName);
+                $stmt->bindParam(':LastName', $LastName);
+                $stmt->bindParam(':Gender', $Gender);
                 $stmt->bindParam(':dob', $dob);
+                $stmt->bindParam(':AccountStatus', $AccountStatus);
                 // specify when this record was inserted to the database
                 //$created = date('Y-m-d H:i:s');
                 //$stmt->bindParam(':created', $created);
@@ -45,16 +55,36 @@
         }
         ?>
 
-        < !-- html form here where the product information will be entered -->
+        < !-- html form here where the customers information will be entered -->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
-                        <td>Name</td>
-                        <td><input type='text' name='name' class='form-control' /></td>
+                        <td>Username</td>
+                        <td><input type='text' name='Username' class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type='password' name='Password' class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>FirstName</td>
+                        <td><input type='text' name='FirstName' class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>LastName</td>
+                        <td><input type='text' name='LastName' class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td><input type='text' name='Gender' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td>dob</td>
                         <td><input type='date' name='dob' class='form-control' /></td>
+                    </tr>
+                    <tr>
+                        <td>AccountStatus</td>
+                        <td><input type='text' name='AccountStatus' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td></td>
