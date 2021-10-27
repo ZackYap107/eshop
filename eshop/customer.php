@@ -19,27 +19,25 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:dob, AccountStatus=:AccountStatus";
+                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:dob";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $Password = htmlspecialchars(strip_tags($_POST['Password']));
+                $Password = md5($_POST['Password']);
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
-                $dob = htmlspecialchars(strip_tags($_POST['dob']));
-                $AccountStatus = htmlspecialchars(strip_tags($_POST['AccountStatus']));
+                $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
                 // bind the parameters
                 $stmt->bindParam(':Username', $Username);
                 $stmt->bindParam(':Password', $Password);
                 $stmt->bindParam(':FirstName', $FirstName);
                 $stmt->bindParam(':LastName', $LastName);
                 $stmt->bindParam(':Gender', $Gender);
-                $stmt->bindParam(':dob', $dob);
-                $stmt->bindParam(':AccountStatus', $AccountStatus);
+                $stmt->bindParam(':Birthday', $dob);
                 // specify when this record was inserted to the database
-                //$created = date('Y-m-d H:i:s');
+                //$dob = date('Y-m-d H:i:s', strtotime);
                 //$stmt->bindParam(':created', $created);
                 // Execute the query
                 if ($stmt->execute()) {
@@ -76,21 +74,20 @@
                     </tr>
                     <tr>
                         <td>Gender</td>
-                        <td><input type='text' name='Gender' class='form-control' /></td>
+                        <td><input type='radio' id='Male' name='Gender' value='1'/>
+                        <label for='Male'>Male</label>
+                        <td><input type='radio' id='Female' name='Gender' value='0'/>
+                        <label for='Female'>Female</label>
                     </tr>
                     <tr>
-                        <td>dob</td>
-                        <td><input type='date' name='dob' class='form-control' /></td>
-                    </tr>
-                    <tr>
-                        <td>AccountStatus</td>
-                        <td><input type='text' name='AccountStatus' class='form-control' /></td>
+                        <td>Date of Birth</td>
+                        <td><input type='date' name='Birthday' class='form-control' /></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
                             <input type='submit' value='Save' class='btn btn-primary' />
-                            <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                            <a href='index.php' class='btn btn-danger'>Back to read</a>
                         </td>
                     </tr>
                 </table>
