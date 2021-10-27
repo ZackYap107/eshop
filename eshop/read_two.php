@@ -10,13 +10,13 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Product</h1>
+            <h1>Read Customer</h1>
         </div>
          
         <?php
 // get passed parameter value, in this case, the record ID
 // isset() is a PHP function used to verify if a value is there or not
-$id=isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+$Username=isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record Username not found.');
  
 //include database connection
 include 'config/database.php';
@@ -24,11 +24,11 @@ include 'config/database.php';
 // read current record's data
 try {
     // prepare select query
-    $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+    $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE id = ? LIMIT 0,1";
     $stmt = $con->prepare( $query );
  
     // this is the first question mark
-    $stmt->bindParam(1, $id);
+    $stmt->bindParam(1, $Username);
  
     // execute our query
     $stmt->execute();
@@ -37,9 +37,12 @@ try {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
  
     // values to fill up our form
-    $name = $row['name'];
-    $description = $row['description'];
-    $price = $row['price'];
+    $Username = $row['Username'];
+    $Password = $row['Password'];
+    $FirstName = $row['FirstName'];
+    $LastName = $row['LastName'];
+    $Gender = $row['Gender'];
+    $dob = $row['Birthday'];
 }
  
 // show error
@@ -52,21 +55,33 @@ catch(PDOException $exception){
         <!--we have our html table here where the record will be displayed-->
 <table class='table table-hover table-responsive table-bordered'>
     <tr>
-        <td>Name</td>
-        <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+        <td>Username</td>
+        <td><?php echo htmlspecialchars($Username, ENT_QUOTES);  ?></td>
     </tr>
     <tr>
-        <td>Description</td>
-        <td><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></td>
+        <td>Password</td>
+        <td><?php echo htmlspecialchars($Password, ENT_QUOTES);  ?></td>
     </tr>
     <tr>
-        <td>Price</td>
-        <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+        <td>FirstName</td>
+        <td><?php echo htmlspecialchars($FirstName, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>LastName</td>
+        <td><?php echo htmlspecialchars($LastName, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>Gender</td>
+        <td><?php echo htmlspecialchars($Gender, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>Birthday</td>
+        <td><?php echo htmlspecialchars($dob, ENT_QUOTES);  ?></td>
     </tr>
     <tr>
         <td></td>
         <td>
-            <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
+            <a href='readCustomers.php' class='btn btn-danger'>Back to read</a>
         </td>
     </tr>
 </table>
