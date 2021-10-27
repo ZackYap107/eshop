@@ -19,7 +19,7 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:dob";
+                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
@@ -53,7 +53,7 @@
         }
         ?>
 
-        < !-- html form here where the customers information will be entered -->
+        <!-- html form here where the customers information will be entered -->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
@@ -76,7 +76,7 @@
                         <td>Gender</td>
                         <td><input type='radio' id='Male' name='Gender' value='1'/>
                         <label for='Male'>Male</label>
-                        <td><input type='radio' id='Female' name='Gender' value='0'/>
+                        <input type='radio' id='Female' name='Gender' value='0'/>
                         <label for='Female'>Female</label>
                     </tr>
                     <tr>
