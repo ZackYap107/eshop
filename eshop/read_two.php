@@ -24,7 +24,7 @@ include 'config/database.php';
 // read current record's data
 try {
     // prepare select query
-    $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE id = ? LIMIT 0,1";
+    $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
     $stmt = $con->prepare( $query );
  
     // this is the first question mark
