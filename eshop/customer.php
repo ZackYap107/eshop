@@ -11,29 +11,28 @@
     <!-- container -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">Register</a>
+            <a class="navbar-brand" href="#">Online Eshop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Product
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="create.php">Create Product</a></li>
+                            <li><a class="dropdown-item" href="readProducts.php">Read Products</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown link
+                            Customer
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="customer.php">Register</a></li>
+                            <li><a class="dropdown-item" href="readCustomers.php">Read Customers</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -49,31 +48,39 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
+                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, ComfirmPassword=:ComfirmPassword, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
                 $Password = md5($_POST['Password']);
+                $cPassword = md5($_POST['ComfirmPassword']);
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
-                // bind the parameters
-                $stmt->bindParam(':Username', $Username);
-                $stmt->bindParam(':Password', $Password);
-                $stmt->bindParam(':FirstName', $FirstName);
-                $stmt->bindParam(':LastName', $LastName);
-                $stmt->bindParam(':Gender', $Gender);
-                $stmt->bindParam(':Birthday', $dob);
-                // specify when this record was inserted to the database
-                //$dob = date('Y-m-d H:i:s', strtotime);
-                //$stmt->bindParam(':created', $created);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
+
+
+                if (empty($Password || $cPassword)) {
+                    echo "Please Enter Password";
+                } else if ($Password != $cPassword) {
+                    echo "Password does not match";
                 } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    // bind the parameters
+                    $stmt->bindParam(':Username', $Username);
+                    $stmt->bindParam(':Password', $Password);
+                    $stmt->bindParam(':ComfirmPassword', $cPassword);
+                    $stmt->bindParam(':FirstName', $FirstName);
+                    $stmt->bindParam(':LastName', $LastName);
+                    $stmt->bindParam(':Gender', $Gender);
+                    $stmt->bindParam(':Birthday', $dob);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
                 }
             }
             // show error
@@ -92,7 +99,11 @@
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='password' name='Password' class='form-control' /></td>
+                    <td><input type='password' name='Password' class='form-control' minlength="8" required /></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input type='password' name='ComfirmPassword' class='form-control' minlength="8" required /></td>
                 </tr>
                 <tr>
                     <td>FirstName</td>
