@@ -48,17 +48,23 @@
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created";
+                $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
+                $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+                $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+                $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 // bind the parameters
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':description', $description);
                 $stmt->bindParam(':price', $price);
+                $stmt->bindParam(':promotion_price', $promotion_price);
+                $stmt->bindParam(':manufacture_date', $manufacture_date);
+                $stmt->bindParam(':expired_date', $expired_date);
                 // specify when this record was inserted to the database
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
@@ -96,6 +102,18 @@
                 <tr>
                     <td>Price</td>
                     <td><input type='number' name='price' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>promotion_price</td>
+                    <td><input type='number' name='promotion_price' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>manufacture_date</td>
+                    <td><input type='date' name='manufacture_date' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>expired_date</td>
+                    <td><input type='date' name='expired_date' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>
