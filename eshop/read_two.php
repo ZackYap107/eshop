@@ -84,7 +84,13 @@
             </tr>
             <tr>
                 <td>Gender</td>
-                <td><?php echo htmlspecialchars($Gender, ENT_QUOTES);  ?></td>
+                <td><?php 
+                if ($Gender == 1){
+                    echo "Male";
+                }else{
+                    echo "Female";
+                }
+                ?></td>
             </tr>
             <tr>
                 <td>Birthday</td>
