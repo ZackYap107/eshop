@@ -12,9 +12,7 @@ include 'config/nav.php';
 ?>
 
 <body>
-
     <!-- container -->
-    
     <div class="container">
 
         <?php
@@ -22,25 +20,27 @@ include 'config/nav.php';
             // include database connection
             include 'config/database.php';
             try {
-                // insert query
-                $query = "INSERT INTO customers SET Username=:Username, Password=:Password, ComfirmPassword=:ComfirmPassword, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
-                // prepare query for execution
-                $stmt = $con->prepare($query);
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
                 $Password = md5($_POST['Password']);
                 $cPassword = md5($_POST['ComfirmPassword']);
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
-                $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
+                $Gender = isset($_POST['Gender']) ? $_POST['Gender'] : "";
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
 
-
+                if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
+                    echo "Please fill in all the information";
+                }
                 if (empty($Password || $cPassword)) {
                     echo "Please Enter Password";
                 } else if ($Password != $cPassword) {
                     echo "Password does not match";
                 } else {
+                    // insert query
+                    $query = "INSERT INTO customers SET Username=:Username, Password=:Password, ComfirmPassword=:ComfirmPassword, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':Username', $Username);
                     $stmt->bindParam(':Password', $Password);
@@ -70,7 +70,7 @@ include 'config/nav.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='Username' class='form-control' minlength="1"required /></td>
+                    <td><input type='text' name='Username' class='form-control' minlength="1" required/></td>
                 </tr>
                 <tr>
                     <td>Password</td>
