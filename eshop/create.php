@@ -41,6 +41,7 @@ include 'config/nav.php';
                 // specify when this record was inserted to the database
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
+
                 // Execute the query
                 if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was saved.</div>";
@@ -52,12 +53,6 @@ include 'config/nav.php';
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-
-            if (is_numeric($price)){
-                echo var_export($price,true)." ", PHP_EOL;
-            }else {
-                echo var_export($price,true)."price is not numeric", PHP_EOL;
-            }
         }
         ?>
 
@@ -66,19 +61,19 @@ include 'config/nav.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' /></td>
+                    <td><input type='text' name='name' class='form-control' minlength="1" required/></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control'></textarea></td>
+                    <td><textarea name='description' class='form-control' minlength="1" required></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type='number' name='price' class='form-control' /></td>
+                    <td><input type='number' name='price' class='form-control' minlength="1" required/></td>
                 </tr>
                 <tr>
                     <td>promotion_price</td>
-                    <td><input type='number' name='promotion_price' class='form-control' /></td>
+                    <td><input type='number' name='promotion_price' class='form-control' minlength="1" required/></td>
                 </tr>
                 <tr>
                     <td>manufacture_date</td>

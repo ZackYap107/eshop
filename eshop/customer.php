@@ -28,14 +28,28 @@ include 'config/nav.php';
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = isset($_POST['Gender']) ? $_POST['Gender'] : "";
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
+                $year = substr($dob,0,4);
+                $tyear = date("Y");
+                $age = $tyear - $year;
+                /*
+                function validateAge($then, $min)
+                {
+                    $then = strtotime($then);
+                    //The age to be over, over +18
+                    $min = strtotime('+18 years', $then);
+                    echo $min;
+                    if (time() < $min) {
+                        die('Not 18');
+                    }
+                }
+                */
 
                 if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
-                    echo "Please fill in all the information";
-                }
-                if (empty($Password || $cPassword)) {
-                    echo "Please Enter Password";
+                    echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
                 } else if ($Password != $cPassword) {
-                    echo "Password does not match";
+                    echo "<div class='alert alert-danger'>Password does not match</div>";
+                } else if ($age <= 18) {
+                    echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
                 } else {
                     // insert query
                     $query = "INSERT INTO customers SET Username=:Username, Password=:Password, ComfirmPassword=:ComfirmPassword, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
@@ -70,15 +84,15 @@ include 'config/nav.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='Username' class='form-control' minlength="1" required/></td>
+                    <td><input type='text' name='Username' class='form-control' minlength="1" /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='password' name='Password' class='form-control' minlength="8" required /></td>
+                    <td><input type='password' name='Password' class='form-control' minlength="6" /></td>
                 </tr>
                 <tr>
                     <td>Confirm Password</td>
-                    <td><input type='password' name='ComfirmPassword' class='form-control' minlength="8" required /></td>
+                    <td><input type='password' name='ComfirmPassword' class='form-control' minlength="6" /></td>
                 </tr>
                 <tr>
                     <td>FirstName</td>
