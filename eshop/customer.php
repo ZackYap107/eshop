@@ -31,6 +31,7 @@ include 'config/nav.php';
                 $year = substr($dob,0,4);
                 $tyear = date("Y");
                 $age = $tyear - $year;
+
                 /*
                 function validateAge($then, $min)
                 {
@@ -117,7 +118,7 @@ include 'config/nav.php';
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='index.php' class='btn btn-danger'>Back to read</a>
+                        <a href='readCustomers.php' class='btn btn-danger'>Back to read</a>
                     </td>
                 </tr>
             </table>
