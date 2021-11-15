@@ -71,7 +71,7 @@
 
 </head>
 
-<body class="text-center">
+<body class="text-center row">
 
     <?php
     if ($_POST) {
@@ -92,19 +92,17 @@
                 //var_dump($row);
                 if (is_array($row)) {
                     if ($Password == $row['Password']) {
-
-
                         if($row['AccountStatus'] == 1){
-                            echo "<div class='alert alert-success'>Login Succuessful</div>";
+                            echo "<div class='alert alert-success row justify-content-center'>Login Succuessful</div>";
                         } else {
-                            echo "<div class='alert alert-danger'>Not active Account</div>";
+                            echo "<div class='alert alert-danger row justify-content-center'>Not active Account</div>";
                         }
                     
                     } else {
-                        echo "<div class='alert alert-danger'>wrong password</div>";
+                        echo "<div class='alert alert-danger row justify-content-center'>wrong password</div>";
                     }
                 } else {
-                    echo "<div class='alert alert-danger'>User not found</div>";
+                    echo "<div class='alert alert-danger row justify-content-center'>User not found</div>";
                 }
             }
         } catch (PDOException $exception) {
