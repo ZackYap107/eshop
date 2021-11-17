@@ -97,9 +97,6 @@
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     //var_dump($row);
                     if (is_array($row)) {
-                        echo md5($Password);
-                        echo "<br>" ;
-                        echo $row['Password'];
                         if (md5($Password) == $row['Password']) {
                             if ($row['AccountStatus'] == 1) {
                                 header("Location: readCustomers.php");
