@@ -19,6 +19,7 @@ include 'config/nav.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
+            include 'session.php';
             try {
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
@@ -31,7 +32,7 @@ include 'config/nav.php';
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
                 $age = $tyear - $year;
-                
+
                 if (isset($Username)) {
                     $query = "SELECT Username FROM customers where Username = ?";
                     $stmt = $con->prepare($query);

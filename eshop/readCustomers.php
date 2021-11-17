@@ -1,3 +1,7 @@
+<?php
+include 'session.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -14,8 +18,8 @@ include 'config/nav.php';
 <body>
     <!-- container -->
     <div class="container">
-
         <?php
+
         // include database connection
         include 'config/database.php';
 

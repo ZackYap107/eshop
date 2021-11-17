@@ -74,6 +74,7 @@
 <body class="text-center row">
 
     <?php
+    session_start();
     if ($_POST) {
 
         $Username = htmlspecialchars(strip_tags($_POST['Username']));
@@ -99,6 +100,7 @@
                     if (is_array($row)) {
                         if (md5($Password) == $row['Password']) {
                             if ($row['AccountStatus'] == 1) {
+                                $_SESSION["Username"] = $Username;
                                 header("Location: readCustomers.php");
                                 exit();
                             } else {

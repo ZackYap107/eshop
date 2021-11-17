@@ -35,6 +35,11 @@
                             <li><a class="dropdown-item" href="readCustomers.php">Read Customers</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php" id="navbarDropdownMenuLink" role="button">
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

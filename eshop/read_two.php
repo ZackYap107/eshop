@@ -32,6 +32,7 @@
 
         //include database connection
         include 'config/database.php';
+        include 'session.php';
 
         // read current record's data
         try {
