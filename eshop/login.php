@@ -81,8 +81,6 @@
             $Username = htmlspecialchars(strip_tags($_POST['Username']));
             $Password = htmlspecialchars(strip_tags($_POST['Password']));
             
-            
-
             if (isset($Username)) {
                 $query = "SELECT Username, Password, AccountStatus FROM customers where Username = ?";
                 $stmt = $con->prepare($query);
@@ -94,6 +92,8 @@
                     if ($Password == $row['Password']) {
                         if($row['AccountStatus'] == 1){
                             echo "<div class='alert alert-success row justify-content-center'>Login Succuessful</div>";
+                            header("Location: read_two.php");
+                            exit();
                         } else {
                             echo "<div class='alert alert-danger row justify-content-center'>Not active Account</div>";
                         }
