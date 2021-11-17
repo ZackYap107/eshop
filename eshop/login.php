@@ -78,6 +78,7 @@
 
         $Username = htmlspecialchars(strip_tags($_POST['Username']));
         $Password = htmlspecialchars(strip_tags($_POST['Password']));
+        //$Password = md5($_POST['Password']);
 
         if ($Username == "") {
             echo "<div class='alert alert-danger row justify-content-center'>Please Fill in all Information</div>";
@@ -96,7 +97,10 @@
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     //var_dump($row);
                     if (is_array($row)) {
-                        if ($Password == $row['Password']) {
+                        echo md5($Password);
+                        echo "<br>" ;
+                        echo $row['Password'];
+                        if (md5($Password) == $row['Password']) {
                             if ($row['AccountStatus'] == 1) {
                                 header("Location: readCustomers.php");
                                 exit();
@@ -119,7 +123,7 @@
 
     <main class="form-signin">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <img class="mb-4" src="ZY_logo.jpg" alt="logo" width="72" height="57">
+            <img class="mb-4" src="store_logo.jpg" alt="logo">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
             <div class="form-floating">

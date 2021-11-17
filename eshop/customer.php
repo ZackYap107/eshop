@@ -22,8 +22,8 @@ include 'config/nav.php';
             try {
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $Password = md5($_POST['Password']);
-                $cPassword = md5($_POST['ComfirmPassword']);
+                $Password = htmlspecialchars(strip_tags($_POST['Password']));
+                $cPassword = htmlspecialchars(strip_tags($_POST['ComfirmPassword']));
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = isset($_POST['Gender']) ? $_POST['Gender'] : "";
@@ -31,19 +31,6 @@ include 'config/nav.php';
                 $year = substr($dob,0,4);
                 $tyear = date("Y");
                 $age = $tyear - $year;
-
-                /*
-                function validateAge($then, $min)
-                {
-                    $then = strtotime($then);
-                    //The age to be over, over +18
-                    $min = strtotime('+18 years', $then);
-                    echo $min;
-                    if (time() < $min) {
-                        die('Not 18');
-                    }
-                }
-                */
 
                 if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
                     echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
@@ -53,13 +40,14 @@ include 'config/nav.php';
                     echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
                 } else {
                     // insert query
-                    $query = "INSERT INTO customers SET Username=:Username, Password=:Password, ComfirmPassword=:ComfirmPassword, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
+                    $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':Username', $Username);
-                    $stmt->bindParam(':Password', $Password);
-                    $stmt->bindParam(':ComfirmPassword', $cPassword);
+                    $newpass = md5($Password);
+                    $stmt->bindParam(':Password', $newpass);
+                    //$stmt->bindParam(':ComfirmPassword', $cPassword);
                     $stmt->bindParam(':FirstName', $FirstName);
                     $stmt->bindParam(':LastName', $LastName);
                     $stmt->bindParam(':Gender', $Gender);
@@ -91,7 +79,6 @@ include 'config/nav.php';
                     <td>Password</td>
                     <td><input type='password' name='Password' class='form-control' minlength="6" /></td>
                 </tr>
-                <tr>
                     <td>Confirm Password</td>
                     <td><input type='password' name='ComfirmPassword' class='form-control' minlength="6" /></td>
                 </tr>
