@@ -75,38 +75,44 @@
 
     <?php
     if ($_POST) {
-        include 'config/database.php';
-        try {
-           //get POST Value
-            $Username = htmlspecialchars(strip_tags($_POST['Username']));
-            $Password = htmlspecialchars(strip_tags($_POST['Password']));
-            
-            if (isset($Username)) {
-                $query = "SELECT Username, Password, AccountStatus FROM customers where Username = ?";
-                $stmt = $con->prepare($query);
-                $stmt->bindParam(1, $Username);
-                $stmt->execute();
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                //var_dump($row);
-                if (is_array($row)) {
-                    if ($Password == $row['Password']) {
-                        if($row['AccountStatus'] == 1){
-                            echo "<div class='alert alert-success row justify-content-center'>Login Succuessful</div>";
-                            header("Location: read_two.php");
-                            exit();
+
+        $Username = htmlspecialchars(strip_tags($_POST['Username']));
+        $Password = htmlspecialchars(strip_tags($_POST['Password']));
+
+        if ($Username == "") {
+            echo "<div class='alert alert-danger row justify-content-center'>Please Enter your information</div>";
+        } else {
+
+            include 'config/database.php';
+            try {
+
+                //get POST Value
+
+                if (isset($Username)) {
+                    $query = "SELECT Username, Password, AccountStatus FROM customers where Username = ?";
+                    $stmt = $con->prepare($query);
+                    $stmt->bindParam(1, $Username);
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    //var_dump($row);
+                    if (is_array($row)) {
+                        if ($Password == $row['Password']) {
+                            if ($row['AccountStatus'] == 1) {
+                                header("Location: readCustomers.php");
+                                exit();
+                            } else {
+                                echo "<div class='alert alert-danger row justify-content-center'>Not active Account</div>";
+                            }
                         } else {
-                            echo "<div class='alert alert-danger row justify-content-center'>Not active Account</div>";
+                            echo "<div class='alert alert-danger row justify-content-center'>wrong password</div>";
                         }
-                    
                     } else {
-                        echo "<div class='alert alert-danger row justify-content-center'>wrong password</div>";
+                        echo "<div class='alert alert-danger row justify-content-center'>User not found</div>";
                     }
-                } else {
-                    echo "<div class='alert alert-danger row justify-content-center'>User not found</div>";
                 }
+            } catch (PDOException $exception) {
+                die('ERROR: ' . $exception->getMessage());
             }
-        } catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
         }
     }
     ?>
