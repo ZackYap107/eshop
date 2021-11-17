@@ -80,7 +80,7 @@
         $Password = htmlspecialchars(strip_tags($_POST['Password']));
 
         if ($Username == "") {
-            echo "<div class='alert alert-danger row justify-content-center'>Please Enter your information</div>";
+            echo "<div class='alert alert-danger row justify-content-center'>Please Fill in all Information</div>";
         } else {
 
             include 'config/database.php';
