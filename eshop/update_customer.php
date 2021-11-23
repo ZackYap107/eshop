@@ -29,12 +29,12 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Update Product</h1>
+            <h1>Update Customer</h1>
         </div>
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+        $Username = isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record User not found.');
 
         //include database connection
         include 'config/database.php';
@@ -42,11 +42,11 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $id);
+            $stmt->bindParam(1, $Username);
 
             // execute our query
             $stmt->execute();
@@ -55,9 +55,12 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
-            $name = $row['name'];
-            $description = $row['description'];
-            $price = $row['price'];
+            $Username = $row['Username'];
+            $Password = $row['Password'];
+            $FirstName = $row['FirstName'];
+            $LastName = $row['LastName'];
+            $Gender = $row['Gender'];
+            $dob = $row['dob'];
 
             // retrieve our table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -66,19 +69,21 @@
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$id}</td>";
-                echo "<td>{$name}</td>";
-                echo "<td>{$description}</td>";
-                echo "<td>${$price}</td>";
+                echo "<td>{$Username}</td>";
+                echo "<td>{$Password}</td>";
+                echo "<td>{$FirstName}</td>";
+                echo "<td>${$LastName}</td>";
+                echo "<td>${$Gender}</td>";
+                echo "<td>${$dob}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='read_one.php?Username={$Username}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='update.php?Username={$Username}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$Username});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -97,20 +102,25 @@
                 // write update query
                 // in this case, it seemed like we have so many fields to pass and
                 // it is better to label them and not use question marks
-                $query = "UPDATE products
-                SET name=:name, description=:description,
-                price=:price WHERE id = :id";
+                $query = "UPDATE Customers
+                SET Password=:Password, FirstName=:FirstName,
+                LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
                 // prepare query for excecution
                 $stmt = $con->prepare($query);
                 // posted values
-                $name = htmlspecialchars(strip_tags($_POST['name']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
-                $price = htmlspecialchars(strip_tags($_POST['price']));
+                $Username = htmlspecialchars(strip_tags($_POST['Username']));
+                $Password = md5(htmlspecialchars(strip_tags($_POST['Password'])));
+                $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
+                $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
+                $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
+                $dob = htmlspecialchars(strip_tags($_POST['dob']));
                 // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':Username', $Username);
+                $stmt->bindParam(':Password', $Password);
+                $stmt->bindParam(':FirstName', $FirstName);
+                $stmt->bindParam(':LastName', $LastName);
+                $stmt->bindParam(':Gender', $Gender);
+                $stmt->bindParam(':dob', $dob);
                 // Execute the query
                 if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -126,25 +136,37 @@
 
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$Username}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td>Username</td>
+                    <td><input type='text' name='Username' value="<?php echo htmlspecialchars($Username, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></textarea></td>
+                    <td>Password</td>
+                    <td><textarea name='Password' class='form-control'><?php echo htmlspecialchars($Password, ENT_QUOTES);  ?></textarea></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
-                    <td><input type='number' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td>FirstName</td>
+                    <td><input type='text' name='FirstName' value="<?php echo htmlspecialchars($FirstName, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>LastName</td>
+                    <td><input type='text' name='LastName' value="<?php echo htmlspecialchars($LastName, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td><input type='text' name='Gender' value="<?php echo htmlspecialchars($Gender, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td><input type='date' name='dob' value="<?php echo htmlspecialchars($dob, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='readCustomers.php' class='btn btn-danger'>Back to read Customers</a>
                     </td>
                 </tr>
             </table>
