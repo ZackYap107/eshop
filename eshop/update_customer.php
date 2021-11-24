@@ -34,7 +34,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $Username = isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record User not found.');
+        $cUsername = isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record User not found.');
 
         //include database connection
         include 'config/database.php';
@@ -47,7 +47,7 @@
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $Username);
+            $stmt->bindParam(1, $cUsername);
 
             // execute our query
             $stmt->execute();
@@ -56,7 +56,7 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
-            $Username = $row['Username'];
+            //$Username = $row['Username'];
             $Password = $row['Password'];
             $FirstName = $row['FirstName'];
             $LastName = $row['LastName'];
@@ -70,7 +70,7 @@
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$Username}</td>";
+                echo "<td>{$cUsername}</td>";
                 echo "<td>{$Password}</td>";
                 echo "<td>{$FirstName}</td>";
                 echo "<td>${$LastName}</td>";
@@ -78,13 +78,13 @@
                 echo "<td>${$dob}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='read_one.php?Username={$Username}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='read_one.php?Username={$cUsername}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?Username={$Username}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='update.php?Username={$cUsername}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$Username});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$cUsername});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -102,59 +102,101 @@
             try {
                 // posted values
                 //$Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $oPassword = htmlspecialchars(strip_tags($_POST['oPassword']));
                 $Password = htmlspecialchars(strip_tags($_POST['Password']));
-                $cPassword = htmlspecialchars(strip_tags($_POST['cPassword']));
+                $nPassword = $_POST['new_password'];
+                $cPassword = $_POST['comfirm_password'];
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
-                $dob = htmlspecialchars(strip_tags($_POST['dob']));
+                $dob = date(strip_tags($_POST['dob']));
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
                 $age = $tyear - $year;
                 $pp = 1;
-                $np = 1;
-                
-                if($oPassword == "" || $Password == "" || $cPassword == ""){
-                    $pp = 1;
-                    if ($oPassword != $Password){
-                        echo "<div class='alert alert-danger'>Old Password does not match</div>";
-                    } else if ($Password || $oPassword || $cPassword < 6){
-                        echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
-                    } else if ($Password != $cPassword){
-                        echo "<div class='alert alert-danger'>Comfirm Password does not match</div>";
-                    }
-                } else {
+
+                if ($FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
                     $pp = 0;
+                    echo "<div class='alert alert-danger'>Please fill in all the information</div>";
+                }
+                if ($age < 18) {
+                    $pp = 0;
+                    echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
                 }
 
-                
-                if ($age <= 18) {
-                    echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
+                if ($Password == "" && $nPassword == "" && $cPassword == "") {
+                    if ($pp == 1) {
+                        $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                        // prepare query for excecution
+                        $stmt = $con->prepare($query);
+                        // bind the parameters
+                        $stmt->bindParam(':Username', $cUsername);
+                        //$stmt->bindParam(':oPassword', $oPassword);
+                        //$newpass = md5($Password);
+                        $stmt->bindParam(':Password', $newpass);
+                        $stmt->bindParam(':FirstName', $FirstName);
+                        $stmt->bindParam(':LastName', $LastName);
+                        $stmt->bindParam(':Gender', $Gender);
+                        $stmt->bindParam(':dob', $dob);
+
+                        // Execute the query
+                        if ($stmt->execute()) {
+                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                        } else {
+                            echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                        }
+                    }
+
+                    echo "Not changing password";
                 } else {
-                    // write update query
-                    // in this case, it seemed like we have so many fields to pass and
-                    // it is better to label them and not use question marks
-                    $query = "UPDATE Customers
-                        SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
-                    // prepare query for excecution
-                    $stmt = $con->prepare($query);
+                    
+                    if ($Password == "" || $nPassword == "" || $cPassword == "") {
+                        $pp = 0;
+                        echo "<div class='alert alert-danger'>Please fill in fields</div>";
+                        //echo "<div class='alert alert-danger'>Old Password does not match</div>";
+                    }
 
-                    // bind the parameters
-                    $stmt->bindParam(':Username', $Username);
-                    //$stmt->bindParam(':oPassword', $oPassword);
-                    $newpass = md5($Password);
-                    $stmt->bindParam(':Password', $newpass);
-                    $stmt->bindParam(':FirstName', $FirstName);
-                    $stmt->bindParam(':LastName', $LastName);
-                    $stmt->bindParam(':Gender', $Gender);
-                    $stmt->bindParam(':dob', $dob);
+                    if (strlen($Password) < 6 || strlen($nPassword) < 6 || strlen($cPassword) < 6) {
+                        $pp = 0;
+                        echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
+                    }
 
-                    // Execute the query
-                    if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was updated.</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    if ($Password !== $cPassword) {
+                        $pp = 0;
+                        echo "<div class='alert alert-danger'>Comfirm Password does not match with New Password</div>";
+                    }
+
+                    if ($pp == 1) {
+
+                        $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
+    
+                        $stmt = $con->prepare($query);
+                        $stmt->bindParam(1, $cUsername);
+                        $stmt->execute();
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if (is_array($row)){
+                            if(md5($Password) !== $row['Password']){
+                                echo "<div class='alert alert-danger'>Wrong Password</div>";
+                            } else {
+                                $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                                // prepare query for excecution
+                                $stmt = $con->prepare($query);
+                                // bind the parameters
+                                $stmt->bindParam(':Username', $cUsername);
+                                $newpass = md5($nPassword);
+                                $stmt->bindParam(':Password', $newpass);
+                                $stmt->bindParam(':FirstName', $FirstName);
+                                $stmt->bindParam(':LastName', $LastName);
+                                $stmt->bindParam(':Gender', $Gender);
+                                $stmt->bindParam(':dob', $dob);
+
+                                if ($stmt->execute()) {
+                                    echo "<div class='alert alert-success'>Record was updated.</div>";
+                                } else {
+                                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -167,23 +209,23 @@
 
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$Username}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$cUsername}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><?php echo htmlspecialchars($Username, ENT_QUOTES);  ?> </td>
+                    <td><?php echo htmlspecialchars($cUsername, ENT_QUOTES);  ?> </td>
                 </tr>
                 <tr>
                     <td>Old Password</td>
-                    <td><input type='text' name='oPassword' value="" class='form-control' /></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
                     <td><input type='text' name='Password' value="" class='form-control' /></td>
                 </tr>
                 <tr>
+                    <td>New Password</td>
+                    <td><input type='text' name='new_password' value="" class='form-control' /></td>
+                </tr>
+                <tr>
                     <td>Comfirm Password</td>
-                    <td><input type='text' name='cPassword' value="" class='form-control' /></td>
+                    <td><input type='text' name='comfirm_password' value="" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>FirstName</td>

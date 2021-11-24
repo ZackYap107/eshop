@@ -47,7 +47,7 @@ include 'config/nav.php';
                         } else if ($Password != $cPassword) {
                             echo "<div class='alert alert-danger'>Password does not match</div>";
                         } else if ($age <= 18) {
-                            echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
+                            echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
                         } else {
                             // insert query
                             $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
