@@ -26,7 +26,7 @@ include 'config/nav.php';
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers ORDER BY Username DESC";
+        $query = "SELECT Username, FirstName, LastName, Gender, dob FROM customers ORDER BY Username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -44,7 +44,7 @@ include 'config/nav.php';
             //creating our table heading
             echo "<tr>";
             echo "<th>Username</th>";
-            echo "<th>Password</th>";
+            //echo "<th>Password</th>";
             echo "<th>FirstName</th>";
             echo "<th>LastName</th>";
             echo "<th>Gender</th>";
@@ -59,7 +59,7 @@ include 'config/nav.php';
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$Username}</td>";
-                echo "<td>{$Password}</td>";
+                //echo "<td>{$Password}</td>";
                 echo "<td>{$FirstName}</td>";
                 echo "<td>{$LastName}</td>";
                 echo "<td>" . ($Gender != 1 ? ' female' : ' male') . "</td>";

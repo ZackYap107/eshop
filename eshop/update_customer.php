@@ -38,6 +38,7 @@
 
         //include database connection
         include 'config/database.php';
+        include 'session.php';
 
         // read current record's data
         try {
@@ -99,40 +100,77 @@
         // check if form was submitted
         if ($_POST) {
             try {
-                // write update query
-                // in this case, it seemed like we have so many fields to pass and
-                // it is better to label them and not use question marks
-                $query = "UPDATE Customers
-                SET Password=:Password, FirstName=:FirstName,
-                LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
                 // posted values
-                $Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $Password = md5(htmlspecialchars(strip_tags($_POST['Password'])));
+                //$Username = htmlspecialchars(strip_tags($_POST['Username']));
+                $oPassword = htmlspecialchars(strip_tags($_POST['oPassword']));
+                $Password = htmlspecialchars(strip_tags($_POST['Password']));
+                $cPassword = htmlspecialchars(strip_tags($_POST['cPassword']));
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
                 $dob = htmlspecialchars(strip_tags($_POST['dob']));
-                // bind the parameters
-                $stmt->bindParam(':Username', $Username);
-                $stmt->bindParam(':Password', $Password);
-                $stmt->bindParam(':FirstName', $FirstName);
-                $stmt->bindParam(':LastName', $LastName);
-                $stmt->bindParam(':Gender', $Gender);
-                $stmt->bindParam(':dob', $dob);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
+                $year = substr($dob, 0, 4);
+                $tyear = date("Y");
+                $age = $tyear - $year;
+                $pp = 1;
+                $np = 1;
+                
+                if($oPassword == "" || $Password == "" || $cPassword == ""){
+                    $pp = 0;
+                    if ($oPassword != $Password){
+                        echo "<div class='alert alert-danger'>Old Password does not match</div>";
+                    } else if ($Password || $oPassword || $cPassword < 6){
+                        echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
+                    } else if ($Password != $cPassword){
+                        echo "<div class='alert alert-danger'>Comfirm Password does not match</div>";
+                    }
                 } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    $pp = 1;
+                }
+
+                if ($oPassword == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
+                    echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
+                } else if ($oPassword != $Password) {
+                    echo "<div class='alert alert-danger'>Old Password does not match</div>";
+                } //else if ($Password != $cPassword) {
+                //echo "<div class='alert alert-danger'>Comfirm Password does not match</div>";}
+                else if ($Password || $oPassword || $cPassword < 6) {
+                    echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
+                } else if ($age <= 18) {
+                    echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
+                } else {
+                    // write update query
+                    // in this case, it seemed like we have so many fields to pass and
+                    // it is better to label them and not use question marks
+                    $query = "UPDATE Customers
+                        SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+
+                    // bind the parameters
+                    $stmt->bindParam(':Username', $Username);
+                    //$stmt->bindParam(':oPassword', $oPassword);
+                    $newpass = md5($Password);
+                    $stmt->bindParam(':Password', $newpass);
+                    $stmt->bindParam(':FirstName', $FirstName);
+                    $stmt->bindParam(':LastName', $LastName);
+                    $stmt->bindParam(':Gender', $Gender);
+                    $stmt->bindParam(':dob', $dob);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
                 }
             }
             // show errors
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-        } ?>
+        }
+        ?>
 
 
         <!--we have our html form here where new record information can be updated-->
@@ -140,11 +178,19 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='Username' value="<?php echo htmlspecialchars($Username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><?php echo htmlspecialchars($Username, ENT_QUOTES);  ?> </td>
+                </tr>
+                <tr>
+                    <td>Old Password</td>
+                    <td><input type='text' name='oPassword' value="" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><textarea name='Password' class='form-control'><?php echo htmlspecialchars($Password, ENT_QUOTES);  ?></textarea></td>
+                    <td><input type='text' name='Password' value="" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Comfirm Password</td>
+                    <td><input type='text' name='cPassword' value="" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>FirstName</td>
@@ -156,7 +202,10 @@
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><input type='text' name='Gender' value="<?php echo htmlspecialchars($Gender, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='radio' id='Male' name='Gender' value='1' <?php if (isset($Gender) && $Gender == "1") echo "checked" ?> />
+                        <label for='Male'>Male</label>
+                        <input type='radio' id='Female' name='Gender' value='0' <?php if (isset($Gender) && $Gender == "0") echo "checked" ?> />
+                        <label for='Female'>Female</label>
                 </tr>
                 <tr>
                     <td>Date of Birth</td>
