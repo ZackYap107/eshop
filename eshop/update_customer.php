@@ -116,7 +116,7 @@
                 $np = 1;
                 
                 if($oPassword == "" || $Password == "" || $cPassword == ""){
-                    $pp = 0;
+                    $pp = 1;
                     if ($oPassword != $Password){
                         echo "<div class='alert alert-danger'>Old Password does not match</div>";
                     } else if ($Password || $oPassword || $cPassword < 6){
@@ -125,18 +125,11 @@
                         echo "<div class='alert alert-danger'>Comfirm Password does not match</div>";
                     }
                 } else {
-                    $pp = 1;
+                    $pp = 0;
                 }
 
-                if ($oPassword == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
-                    echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
-                } else if ($oPassword != $Password) {
-                    echo "<div class='alert alert-danger'>Old Password does not match</div>";
-                } //else if ($Password != $cPassword) {
-                //echo "<div class='alert alert-danger'>Comfirm Password does not match</div>";}
-                else if ($Password || $oPassword || $cPassword < 6) {
-                    echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
-                } else if ($age <= 18) {
+                
+                if ($age <= 18) {
                     echo "<div class='alert alert-danger'>User to be greater than 18 years old</div>";
                 } else {
                     // write update query
