@@ -27,6 +27,7 @@ include 'config/nav.php';
                 $cPassword = htmlspecialchars(strip_tags($_POST['ComfirmPassword']));
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
+                $email = htmlspecialchars(strip_tags($_POST['email']));
                 $Gender = isset($_POST['Gender']) ? $_POST['Gender'] : "";
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
                 $year = substr($dob, 0, 4);
@@ -42,15 +43,19 @@ include 'config/nav.php';
                     if (is_array($row)) {
                         echo "<div class='alert alert-danger'>Username has used</div>";
                     } else {
-                        if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
+                        if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                             echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
                         } else if ($Password != $cPassword) {
                             echo "<div class='alert alert-danger'>Password does not match</div>";
                         } else if ($age <= 18) {
                             echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
+                        } else if (empty($_POST["email"])) {
+                            echo "<div class='alert alert-danger'>Email is required</div>";
+                        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            echo "<div class='alert alert-danger'>Invalid email format</div>";
                         } else {
                             // insert query
-                            $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, Gender=:Gender, dob=:Birthday";
+                            $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:Birthday";
                             // prepare query for execution
                             $stmt = $con->prepare($query);
                             // bind the parameters
@@ -60,6 +65,7 @@ include 'config/nav.php';
                             //$stmt->bindParam(':ComfirmPassword', $cPassword);
                             $stmt->bindParam(':FirstName', $FirstName);
                             $stmt->bindParam(':LastName', $LastName);
+                            $stmt->bindParam(':email', $email);
                             $stmt->bindParam(':Gender', $Gender);
                             $stmt->bindParam(':Birthday', $dob);
 
@@ -101,6 +107,10 @@ include 'config/nav.php';
                 <tr>
                     <td>LastName</td>
                     <td><input type='text' name='LastName' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type='text' name='email' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>

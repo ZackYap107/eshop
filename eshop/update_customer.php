@@ -34,7 +34,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $cUsername = isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record User not found.');
+        $Username = isset($_GET['Username']) ? $_GET['Username'] : die('ERROR: Record User not found.');
 
         //include database connection
         include 'config/database.php';
@@ -43,11 +43,11 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
+            $query = "SELECT Username, Password, FirstName, LastName, email, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $cUsername);
+            $stmt->bindParam(1, $Username);
 
             // execute our query
             $stmt->execute();
@@ -60,6 +60,7 @@
             $Password = $row['Password'];
             $FirstName = $row['FirstName'];
             $LastName = $row['LastName'];
+            $email = $row['email'];
             $Gender = $row['Gender'];
             $dob = $row['dob'];
 
@@ -70,21 +71,22 @@
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$cUsername}</td>";
+                echo "<td>{$Username}</td>";
                 echo "<td>{$Password}</td>";
                 echo "<td>{$FirstName}</td>";
                 echo "<td>${$LastName}</td>";
+                echo "<td>${$email}</td>";
                 echo "<td>${$Gender}</td>";
                 echo "<td>${$dob}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='read_one.php?Username={$cUsername}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='read_one.php?Username={$Username}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?Username={$cUsername}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='update.php?Username={$Username}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$cUsername});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$Username});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -107,6 +109,7 @@
                 $cPassword = $_POST['comfirm_password'];
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
+                $email = htmlspecialchars(strip_tags($_POST['email']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
                 $dob = date(strip_tags($_POST['dob']));
                 $year = substr($dob, 0, 4);
@@ -114,7 +117,7 @@
                 $age = $tyear - $year;
                 $pp = 1;
 
-                if ($FirstName == "" || $LastName == "" || $Gender == "" || $dob == "") {
+                if ($FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                     $pp = 0;
                     echo "<div class='alert alert-danger'>Please fill in all the information</div>";
                 }
@@ -125,11 +128,11 @@
 
                 if ($Password == "" && $nPassword == "" && $cPassword == "") {
                     if ($pp == 1) {
-                        $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                        $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, nPassword=:nPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // bind the parameters
-                        $stmt->bindParam(':Username', $cUsername);
+                        $stmt->bindParam(':Username', $Username);
                         //$stmt->bindParam(':oPassword', $oPassword);
                         //$newpass = md5($Password);
                         $stmt->bindParam(':Password', $newpass);
@@ -145,7 +148,6 @@
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }
                     }
-
                     echo "Not changing password";
                 } else {
                     
@@ -160,7 +162,7 @@
                         echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
                     }
 
-                    if ($Password !== $cPassword) {
+                    if ($nPassword !== $cPassword) {
                         $pp = 0;
                         echo "<div class='alert alert-danger'>Comfirm Password does not match with New Password</div>";
                     }
@@ -170,7 +172,7 @@
                         $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
     
                         $stmt = $con->prepare($query);
-                        $stmt->bindParam(1, $cUsername);
+                        $stmt->bindParam(1, $Username);
                         $stmt->execute();
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -178,15 +180,16 @@
                             if(md5($Password) !== $row['Password']){
                                 echo "<div class='alert alert-danger'>Wrong Password</div>";
                             } else {
-                                $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, oPassword=:oPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                                $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, nPassword=:nPassword, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob WHERE Username = :Username";
                                 // prepare query for excecution
                                 $stmt = $con->prepare($query);
                                 // bind the parameters
-                                $stmt->bindParam(':Username', $cUsername);
+                                $stmt->bindParam(':Username', $Username);
                                 $newpass = md5($nPassword);
                                 $stmt->bindParam(':Password', $newpass);
                                 $stmt->bindParam(':FirstName', $FirstName);
                                 $stmt->bindParam(':LastName', $LastName);
+                                $stmt->bindParam(':email', $email);
                                 $stmt->bindParam(':Gender', $Gender);
                                 $stmt->bindParam(':dob', $dob);
 
@@ -200,6 +203,7 @@
                     }
                 }
             }
+
             // show errors
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
@@ -209,11 +213,11 @@
 
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$cUsername}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$Username}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><?php echo htmlspecialchars($cUsername, ENT_QUOTES);  ?> </td>
+                    <td><?php echo htmlspecialchars($Username, ENT_QUOTES);  ?> </td>
                 </tr>
                 <tr>
                     <td>Old Password</td>
@@ -222,10 +226,13 @@
                 <tr>
                     <td>New Password</td>
                     <td><input type='text' name='new_password' value="" class='form-control' /></td>
+                    <?php
+                    ?>
                 </tr>
                 <tr>
                     <td>Comfirm Password</td>
                     <td><input type='text' name='comfirm_password' value="" class='form-control' /></td>
+                    
                 </tr>
                 <tr>
                     <td>FirstName</td>
@@ -234,6 +241,10 @@
                 <tr>
                     <td>LastName</td>
                     <td><input type='text' name='LastName' value="<?php echo htmlspecialchars($LastName, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type='text' name='email' value="<?php echo htmlspecialchars($email, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
