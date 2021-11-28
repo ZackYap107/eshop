@@ -119,7 +119,7 @@
 
                 if ($FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                     $pp = 0;
-                    echo "<div class='alert alert-danger'>Please fill in all the information</div>";
+                    //echo "<div class='alert alert-danger'>Please fill in all the information</div>";
                 }
                 if ($age < 18) {
                     $pp = 0;
@@ -133,7 +133,7 @@
                         $stmt = $con->prepare($query);
                         // bind the parameters
                         $stmt->bindParam(':Username', $Username);
-                        //$stmt->bindParam(':oPassword', $oPassword);
+                        //$stmt->bindParam(':nPassword', $nPassword);
                         //$newpass = md5($Password);
                         $stmt->bindParam(':Password', $newpass);
                         $stmt->bindParam(':FirstName', $FirstName);
@@ -177,7 +177,7 @@
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         if (is_array($row)){
-                            if(md5($Password) !== $row['Password']){
+                            if((md5($Password)) !== $row['Password']){
                                 echo "<div class='alert alert-danger'>Wrong Password</div>";
                             } else {
                                 $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, nPassword=:nPassword, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob WHERE Username = :Username";
