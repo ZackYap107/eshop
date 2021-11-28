@@ -19,6 +19,7 @@ include 'config/nav.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
+            include 'session.php';
             try {
                 // insert query
                 $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";

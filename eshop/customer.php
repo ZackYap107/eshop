@@ -19,7 +19,7 @@ include 'config/nav.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
-            include 'session.php';
+            //include 'session.php';
             try {
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));

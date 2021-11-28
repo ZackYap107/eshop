@@ -19,6 +19,7 @@ include 'config/nav.php';
         <?php
         // include database connection
         include 'config/database.php';
+        include 'session.php';
 
         // delete message prompt will be here
 
