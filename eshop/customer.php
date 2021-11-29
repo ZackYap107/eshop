@@ -32,7 +32,9 @@ include 'config/nav.php';
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
-                $age = $tyear - $year;
+                if($year != null){
+                    $age = $tyear - $year;
+                }
 
                 if (isset($Username)) {
                     $query = "SELECT Username FROM customers where Username = ?";
@@ -42,6 +44,15 @@ include 'config/nav.php';
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     if (is_array($row)) {
                         echo "<div class='alert alert-danger'>Username has used</div>";
+                    } else if (isset($email)) {
+                        $query = "SELECT email FROM customers where email = ?";
+                        $stmt = $con->prepare($query);
+                        $stmt->bindParam(1, $email);
+                        $stmt->execute();
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if (is_array($row)) {
+                            echo "<div class='alert alert-danger'>Email account has used</div>";
+                        }
                     } else {
                         if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                             echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
