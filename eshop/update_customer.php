@@ -116,26 +116,68 @@
                 $tyear = date("Y");
                 $age = $tyear - $year;
                 $pp = 1;
+                $p = 1;
 
-                if ($FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
-                    $pp = 0;
-                    //echo "<div class='alert alert-danger'>Please fill in all the information</div>";
+                if ($FirstName == "") {
+                    $p = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your FirstName</div>";
+                }
+                if ($LastName == "") {
+                    $p = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your LastName</div>";
+                }
+                if ($Gender == "") {
+                    $p = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your Gender</div>";
+                }
+                if ($dob == "") {
+                    $p = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your Birthday</div>";
+                }
+                if ($email == "") {
+                    $p = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your email</div>";
                 }
                 if ($age < 18) {
-                    $pp = 0;
+                    $p = 0;
                     echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
                 }
 
+                if ($email != "") {
+                    $query = "SELECT email FROM customers where email = ?";
+                    $stmt = $con->prepare($query);
+                    $stmt->bindParam(1, $email);
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (is_array($row)) {
+                        $p = 0;
+                        echo "<div class='alert alert-secondary'>Email account has used / Keep original Email account</div>";
+                    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $p = 0;
+                        echo "<div class='alert alert-danger'>Invalid email format</div>";
+                    }
+                    
+                    if (is_array($row)) {
+                        if ($email != "") {
+                            if ($email == $row['email']) {
+                                $p = 0;
+                            }
+                        }
+                    }
+
+                }
+
                 if ($Password == "" && $nPassword == "" && $cPassword == "") {
-                    if ($pp == 1) {
-                        $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, nPassword=:nPassword, LastName=:LastName, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                    if ($p == 1) {
+                        $query = "UPDATE customers SET FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob WHERE Username = :Username";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // bind the parameters
                         $stmt->bindParam(':Username', $Username);
                         //$stmt->bindParam(':nPassword', $nPassword);
                         //$newpass = md5($Password);
-                        $stmt->bindParam(':Password', $newpass);
+                        $stmt->bindParam(':email', $email);
                         $stmt->bindParam(':FirstName', $FirstName);
                         $stmt->bindParam(':LastName', $LastName);
                         $stmt->bindParam(':Gender', $Gender);
@@ -148,55 +190,53 @@
                             echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                         }
                     }
-                    echo "Not changing password";
+                    //Not changing password
                 } else {
-                    
+
                     if ($Password == "" || $nPassword == "" || $cPassword == "") {
                         $pp = 0;
                         echo "<div class='alert alert-danger'>Please fill in fields</div>";
                         //echo "<div class='alert alert-danger'>Old Password does not match</div>";
                     }
 
+
                     if (strlen($Password) < 6 || strlen($nPassword) < 6 || strlen($cPassword) < 6) {
                         $pp = 0;
                         echo "<div class='alert alert-danger'>Password must more than 6 digit</div>";
                     }
 
-                    if ($nPassword !== $cPassword) {
+                    if ($nPassword != $cPassword) {
                         $pp = 0;
                         echo "<div class='alert alert-danger'>Comfirm Password does not match with New Password</div>";
                     }
 
-                    if ($pp == 1) {
 
-                        $query = "SELECT Username, Password, FirstName, LastName, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
-    
+
+                    if ($pp == 1) {
+                        //change password
+                        $query = "SELECT Password, email FROM customers WHERE Username = ?";
+
                         $stmt = $con->prepare($query);
                         $stmt->bindParam(1, $Username);
                         $stmt->execute();
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        if (is_array($row)){
-                            if((md5($Password)) !== $row['Password']){
+                        if (is_array($row)) {
+                            if ((md5($Password)) != $row['Password']) {
                                 echo "<div class='alert alert-danger'>Wrong Password</div>";
                             } else {
-                                $query = "UPDATE Customers SET Password=:Password, FirstName=:FirstName, cPassword=:cPassword, nPassword=:nPassword, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                                $query = "UPDATE customers SET Password=:Password WHERE Username = :Username";
                                 // prepare query for excecution
                                 $stmt = $con->prepare($query);
                                 // bind the parameters
                                 $stmt->bindParam(':Username', $Username);
                                 $newpass = md5($nPassword);
                                 $stmt->bindParam(':Password', $newpass);
-                                $stmt->bindParam(':FirstName', $FirstName);
-                                $stmt->bindParam(':LastName', $LastName);
-                                $stmt->bindParam(':email', $email);
-                                $stmt->bindParam(':Gender', $Gender);
-                                $stmt->bindParam(':dob', $dob);
 
                                 if ($stmt->execute()) {
-                                    echo "<div class='alert alert-success'>Record was updated.</div>";
+                                    echo "<div class='alert alert-success'>Record Password was updated.</div>";
                                 } else {
-                                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                                    echo "<div class='alert alert-danger'>Unable to update Password. Please try again.</div>";
                                 }
                             }
                         }
@@ -232,7 +272,7 @@
                 <tr>
                     <td>Comfirm Password</td>
                     <td><input type='text' name='comfirm_password' value="" class='form-control' /></td>
-                    
+
                 </tr>
                 <tr>
                     <td>FirstName</td>

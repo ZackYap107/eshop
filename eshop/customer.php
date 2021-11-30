@@ -36,7 +36,7 @@ include 'config/nav.php';
                     $age = $tyear - $year;
                 }
 
-                if (isset($Username)) {
+                //if (isset($Username)) {
                     $query = "SELECT Username FROM customers where Username = ?";
                     $stmt = $con->prepare($query);
                     $stmt->bindParam(1, $Username);
@@ -44,7 +44,7 @@ include 'config/nav.php';
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     if (is_array($row)) {
                         echo "<div class='alert alert-danger'>Username has used</div>";
-                    } else if (isset($email)) {
+                    } //else if (isset($email)) {
                         $query = "SELECT email FROM customers where email = ?";
                         $stmt = $con->prepare($query);
                         $stmt->bindParam(1, $email);
@@ -53,7 +53,7 @@ include 'config/nav.php';
                         if (is_array($row)) {
                             echo "<div class='alert alert-danger'>Email account has used</div>";
                         }
-                    } else {
+                    //} else {
                         if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                             echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
                         } else if ($Password != $cPassword) {
@@ -86,9 +86,9 @@ include 'config/nav.php';
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }
-                        }
+                       // }
                     }
-                }
+                //}
             }
             // show error
             catch (PDOException $exception) {
