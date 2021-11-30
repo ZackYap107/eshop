@@ -185,9 +185,9 @@
 
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            echo "<div class='alert alert-success'>Record was updated</div>";
                         } else {
-                            echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                            echo "<div class='alert alert-danger'>Unable to update record. Please try again</div>";
                         }
                     }
                     //Not changing password
@@ -234,9 +234,9 @@
                                 $stmt->bindParam(':Password', $newpass);
 
                                 if ($stmt->execute()) {
-                                    echo "<div class='alert alert-success'>Record Password was updated.</div>";
+                                    echo "<div class='alert alert-success'>Record Password was updated</div>";
                                 } else {
-                                    echo "<div class='alert alert-danger'>Unable to update Password. Please try again.</div>";
+                                    echo "<div class='alert alert-danger'>Unable to update Password. Please try again</div>";
                                 }
                             }
                         }

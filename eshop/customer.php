@@ -82,9 +82,9 @@ include 'config/nav.php';
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Record was saved.</div>";
+                                echo "<div class='alert alert-success'>Record was saved</div>";
                             } else {
-                                echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                                echo "<div class='alert alert-danger'>Unable to save record</div>";
                             }
                        // }
                     }
@@ -98,7 +98,7 @@ include 'config/nav.php';
         ?>
 
         <!-- html form here where the customers information will be entered -->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
