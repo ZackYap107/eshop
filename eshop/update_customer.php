@@ -253,7 +253,7 @@
 
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$Username}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?Username={$Username}"); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
