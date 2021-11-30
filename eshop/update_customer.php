@@ -261,17 +261,17 @@
                 </tr>
                 <tr>
                     <td>Old Password</td>
-                    <td><input type='text' name='Password' value="" class='form-control' /></td>
+                    <td><input type='password' name='Password' value="" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>New Password</td>
-                    <td><input type='text' name='new_password' value="" class='form-control' /></td>
+                    <td><input type='password' name='new_password' value="" class='form-control' /></td>
                     <?php
                     ?>
                 </tr>
                 <tr>
                     <td>Comfirm Password</td>
-                    <td><input type='text' name='comfirm_password' value="" class='form-control' /></td>
+                    <td><input type='password' name='comfirm_password' value="" class='form-control' /></td>
 
                 </tr>
                 <tr>
