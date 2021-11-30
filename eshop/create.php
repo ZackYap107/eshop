@@ -74,11 +74,11 @@ include 'config/nav.php';
                 </tr>
                 <tr>
                     <td>promotion_price</td>
-                    <td><input type='number' name='promotion_price' class='form-control' minlength="1" required/></td>
+                    <td><input type='number' name='promotion_price' class='form-control'/></td>
                 </tr>
                 <tr>
                     <td>manufacture_date</td>
-                    <td><input type='date' name='manufacture_date' class='form-control' /></td>
+                    <td><input type='date' name='manufacture_date' class='form-control' required /></td>
                 </tr>
                 <tr>
                     <td>expired_date</td>
