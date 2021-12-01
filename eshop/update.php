@@ -97,7 +97,7 @@
         if ($_POST) {
             try {
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                $name = htmlspecialchars(strip_tags($_POST['category']));
+                $category = htmlspecialchars(strip_tags($_POST['category']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $flag = 1;
@@ -154,7 +154,7 @@
                 </tr>
                 <tr>
                     <td>category</td>
-                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($category, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>

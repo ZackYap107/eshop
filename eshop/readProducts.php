@@ -24,7 +24,7 @@ include 'config/nav.php';
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products ORDER BY id DESC";
+        $query = "SELECT products.id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -43,6 +43,7 @@ include 'config/nav.php';
             echo "<tr>";
             echo "<th>ID</th>";
             echo "<th>Name</th>";
+            echo "<th>category</th>";
             echo "<th>Description</th>";
             echo "<th>Price</th>";
             echo "<th>Promotion Price</th>";
@@ -60,6 +61,7 @@ include 'config/nav.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
+                echo "<td>{$cname}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
                 echo "<td>{$promotion_price}</td>";

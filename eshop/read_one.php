@@ -36,7 +36,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -50,6 +50,7 @@
 
             // values to fill up our form
             $name = $row['name'];
+            $category = $row['category'];
             $description = $row['description'];
             $price = $row['price'];
             $promotion_price = $row['promotion_price'];
@@ -69,6 +70,10 @@
             <tr>
                 <td>Name</td>
                 <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>category</td>
+                <td><?php echo htmlspecialchars($category, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Description</td>
