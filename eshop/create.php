@@ -27,6 +27,7 @@ include 'config/nav.php';
                 $stmt = $con->prepare($query);
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
+                $category = htmlspecialchars(strip_tags($_POST['category']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
@@ -34,6 +35,7 @@ include 'config/nav.php';
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 // bind the parameters
                 $stmt->bindParam(':name', $name);
+                $stmt->bindParam(':category', $category);
                 $stmt->bindParam(':description', $description);
                 $stmt->bindParam(':price', $price);
                 $stmt->bindParam(':promotion_price', $promotion_price);
@@ -58,11 +60,15 @@ include 'config/nav.php';
         ?>
 
         <!-- html form here where the product information will be entered -->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
                     <td><input type='text' name='name' class='form-control' minlength="1" required/></td>
+                </tr>
+                <tr>
+                    <td>category</td>
+                    <td><input type='text' name='category' class='form-control' minlength="1" required/></td>
                 </tr>
                 <tr>
                     <td>Description</td>

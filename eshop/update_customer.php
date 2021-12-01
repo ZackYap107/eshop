@@ -104,7 +104,7 @@
             try {
                 // posted values
                 //$Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $Password = htmlspecialchars(strip_tags($_POST['Password']));
+                $Password = $_POST['Password'];
                 $nPassword = $_POST['new_password'];
                 $cPassword = $_POST['comfirm_password'];
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));

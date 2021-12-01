@@ -42,7 +42,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, category, description, price FROM products WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -56,6 +56,7 @@
 
             // values to fill up our form
             $name = $row['name'];
+            $category = $row['category'];
             $description = $row['description'];
             $price = $row['price'];
 
@@ -68,6 +69,7 @@
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
+                echo "<td>{$category}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>${$price}</td>";
                 echo "<td>";
@@ -95,6 +97,7 @@
         if ($_POST) {
             try {
                 $name = htmlspecialchars(strip_tags($_POST['name']));
+                $name = htmlspecialchars(strip_tags($_POST['category']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $flag = 1;
@@ -102,6 +105,10 @@
                 if($name == "" ){
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product name</div>";
+                }
+                if($category == "" ){
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your product category</div>";
                 }
                 if($description == "" ){
                     $flag = 0;
@@ -114,12 +121,12 @@
 
                 if ($flag == 1){
                     $query = "UPDATE products
-                    SET name=:name, description=:description,
-                    price=:price WHERE id = :id";
+                    SET name=:name, category=:category, description=:description, price=:price WHERE id = :id";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':category', $category);
                     $stmt->bindParam(':description', $description);
                     $stmt->bindParam(':price', $price);
                     $stmt->bindParam(':id', $id);
@@ -144,6 +151,10 @@
                 <tr>
                     <td>Name</td>
                     <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>category</td>
+                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>

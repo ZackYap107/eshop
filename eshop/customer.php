@@ -23,8 +23,8 @@ include 'config/nav.php';
             try {
                 // posted values
                 $Username = htmlspecialchars(strip_tags($_POST['Username']));
-                $Password = htmlspecialchars(strip_tags($_POST['Password']));
-                $cPassword = htmlspecialchars(strip_tags($_POST['ComfirmPassword']));
+                $Password = ($_POST['Password']);
+                $cPassword = ($_POST['ComfirmPassword']);
                 $FirstName = htmlspecialchars(strip_tags($_POST['FirstName']));
                 $LastName = htmlspecialchars(strip_tags($_POST['LastName']));
                 $email = htmlspecialchars(strip_tags($_POST['email']));

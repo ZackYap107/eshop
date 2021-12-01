@@ -78,7 +78,7 @@
     if ($_POST) {
 
         $Username = htmlspecialchars(strip_tags($_POST['Username']));
-        $Password = htmlspecialchars(strip_tags($_POST['Password']));
+        $Password = ($_POST['Password']);
         //$Password = md5($_POST['Password']);
 
         if ($Username == "") {
