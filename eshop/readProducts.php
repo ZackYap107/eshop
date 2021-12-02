@@ -15,24 +15,60 @@ include 'config/nav.php';
 
     <!-- container -->
     <div class="container">
-
+        <div class="dropdown row">
+        <tr>
+            <td>
+                <?php
+                echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 m-2'>Create New Product</a>";
+                ?>
+            </td>
+            <td></td>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <td>
+                <select class="form-select w-25 col-2 m-2" aria-label="Default select example" name="categories">
+                <option value="0" name="a" selected>All Category</option>
+                <option value="1" name="g">General</option>
+                <option value="2" name="s">Sport</option>
+                <option value="3" name="e">Engine</option>
+                </select>
+            </td>
+            <tr>
+                <td></td>
+                <td>
+                    <input type='submit' value='Submit' class='btn btn-secondary col-2 m-2' />
+                </td>
+            </tr>
+            </form>         
+        </tr>
+    </div>
         <?php
         // include database connection
         include 'config/database.php';
         include 'session.php';
-
+        //include 'dropdown_category.php';
         // delete message prompt will be here
+        $categories = 0;
 
-        // select all data
-        $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
+        
+        if($_POST){
+            $categories = $_POST["categories"];
+        }
+
+        if($categories > 0){
+            // select selection category data
+            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products  INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC ";
+
+        }else{
+            // select all data
+            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
+        }
+
+        
         $stmt = $con->prepare($query);
         $stmt->execute();
-
+        //$stmt->bindParam(':categories', $categories);
         // this is how to get number of rows returned
         $num = $stmt->rowCount();
-
-        // link to create record form
-        include 'dropdown_category.php';
 
         //check if more than 0 record found
         if ($num > 0) {
