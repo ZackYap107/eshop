@@ -24,7 +24,7 @@ include 'config/nav.php';
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT products.id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id DESC";
+        $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -32,8 +32,6 @@ include 'config/nav.php';
         $num = $stmt->rowCount();
 
         // link to create record form
-        
-        echo "<a href='create.php' class='btn btn-primary m-b-1em '>Create New Product</a>";
         include 'dropdown_category.php';
 
         //check if more than 0 record found
