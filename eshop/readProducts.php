@@ -19,13 +19,13 @@ include 'config/nav.php';
         <tr>
             <td>
                 <?php
-                echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 m-2'>Create New Product</a>";
+                echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 ms-3 my-2'>Create New Product</a>";
                 ?>
             </td>
             <td></td>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <td>
-                <select class="form-select w-25 col-2 m-2" aria-label="Default select example" name="categories">
+                <select class="w-25 col-2 p-2" aria-label="Default select example" name="categories">
                 <option value="0" name="a" selected>All Category</option>
                 <option value="1" name="g">General</option>
                 <option value="2" name="s">Sport</option>
@@ -51,6 +51,7 @@ include 'config/nav.php';
 
         
         if($_POST){
+            //get post data from form when submit
             $categories = $_POST["categories"];
         }
 
