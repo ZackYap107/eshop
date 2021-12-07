@@ -45,13 +45,13 @@ include 'config/nav.php';
         // include database connection
         include 'config/database.php';
         include 'session.php';
-        //include 'dropdown_category.php';
-        // delete message prompt will be here
+        
+        //0 = all categories
         $categories = 0;
 
         
         if($_POST){
-            //get post data from form when submit
+            //get post data from form when submit such as (0,1,2,3) value
             $categories = $_POST["categories"];
         }
 
