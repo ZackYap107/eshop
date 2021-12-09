@@ -100,13 +100,13 @@ include 'config/nav.php';
 
     <script type='text/javascript'>
         // confirm record deletion
-        function delete_user(id) {
+        function delete_user(Username) {
 
-            var answer = confirm('Are you sure?');
+            var answer = confirm('Are you sure to delete this User?');
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query
-                window.location = 'delete.php?id=' + id;
+                window.location = 'delete_customer.php?id=' + Username;
             }
         }
     </script>

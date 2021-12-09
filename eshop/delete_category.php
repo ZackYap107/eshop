@@ -7,14 +7,14 @@ try {
     $id=isset($_GET['id']) ? $_GET['id'] :  die('ERROR: Record ID not found.');
 
     // delete query
-    $query = "DELETE FROM products WHERE id = ?";
+    $query = "DELETE FROM categories WHERE id = ?";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $id);
      
     if($stmt->execute()){
         // redirect to read records page and
         // tell the user record was deleted
-        header('Location: readProducts.php?action=deleted');
+        header('Location: categories_list.php?action=deleted');
     }else{
         die('Unable to delete record.');
     }

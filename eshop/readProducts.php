@@ -146,7 +146,7 @@ include 'config/nav.php';
         // confirm record deletion
         function delete_user(id) {
 
-            var answer = confirm('Are you sure?');
+            var answer = confirm('Are you sure to delete this product?');
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query
