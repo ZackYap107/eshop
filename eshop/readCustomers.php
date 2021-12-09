@@ -32,7 +32,7 @@ include 'config/nav.php';
         }
 
         // select all data
-        $query = "SELECT Username, FirstName, LastName, email, Gender, dob FROM customers ORDER BY Username DESC";
+        $query = "SELECT Username, FirstName, LastName, email, Gender, dob FROM customers ORDER BY Username ASC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 

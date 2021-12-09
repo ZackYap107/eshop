@@ -20,10 +20,10 @@ include 'config/nav.php';
     <div class="container">
 
         <?php
-        if ($price != "" && $quantity != "") {
+        /*if ($price !== NULL && $quantity !== NULL) {
             $total_price = $quantity * $price;
         }
-
+        */
         if ($_POST) {
             // include database connection
             include 'config/database.php';
@@ -64,30 +64,30 @@ include 'config/nav.php';
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>category</td>
+                    <td>Category</td>
                     <td><input type='text' name='category' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
-                    <td>products</td>
+                    <td>Products</td>
                     <td><textarea name='products' class='form-control' minlength="1" required></textarea></td>
                 </tr>
                 <tr>
-                    <td>quantity</td>
+                    <td>Quantity</td>
                     <td><input type='number' name='quantity' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
-                    <td>price</td>
+                    <td>Price</td>
                     <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
-                    <td>total_price</td>
+                    <td>Total Price</td>
                     <td><?php echo htmlspecialchars($total_price, ENT_QUOTES); ?></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='order_list.php' class='btn btn-danger'>Back to read products</a>
                     </td>
                 </tr>
             </table>

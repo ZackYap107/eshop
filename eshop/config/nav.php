@@ -22,8 +22,8 @@
                             Order
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="create.php">Order Now</a></li>
-                            <li><a class="dropdown-item" href="readProducts.php">Order Details</a></li>
+                            <li><a class="dropdown-item" href="order.php">Order Now</a></li>
+                            <li><a class="dropdown-item" href="order_list.php">Order List</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
