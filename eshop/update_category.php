@@ -29,7 +29,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Update Product</h1>
+            <h1>Update Category</h1>
         </div>
         <?php
         // get passed parameter value, in this case, the record ID
@@ -42,7 +42,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, category, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name FROM categories WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -56,9 +56,6 @@
 
             // values to fill up our form
             $name = $row['name'];
-            $category = $row['category'];
-            $description = $row['description'];
-            $price = $row['price'];
 
             // retrieve our table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -69,15 +66,12 @@
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-                echo "<td>{$category}</td>";
-                echo "<td>{$description}</td>";
-                echo "<td>${$price}</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='update_category.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
@@ -97,38 +91,20 @@
         if ($_POST) {
             try {
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                $category = htmlspecialchars(strip_tags($_POST['category']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
-                $price = htmlspecialchars(strip_tags($_POST['price']));
                 $flag = 1;
 
                 if($name == "" ){
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product name</div>";
                 }
-                if($category == "" ){
-                    $flag = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your product category</div>";
-                }
-                if($description == "" ){
-                    $flag = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your product description</div>";
-                }
-                if($price == "" ){
-                    $flag = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your product price</div>";
-                }
 
                 if ($flag == 1){
-                    $query = "UPDATE products
-                    SET name=:name, category=:category, description=:description, price=:price WHERE id = :id";
+                    $query = "UPDATE categories
+                    SET name=:name WHERE id = :id";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':category', $category);
-                    $stmt->bindParam(':description', $description);
-                    $stmt->bindParam(':price', $price);
                     $stmt->bindParam(':id', $id);
                     // Execute the query
                     if ($stmt->execute()) {
@@ -157,22 +133,10 @@
                     <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>category</td>
-                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($category, ENT_QUOTES);  ?>" class='form-control' /></td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></textarea></td>
-                </tr>
-                <tr>
-                    <td>Price</td>
-                    <td><input type='number' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' /></td>
-                </tr>
-                <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='categories_list.php' class='btn btn-danger'>Back to read Categories</a>
                     </td>
                 </tr>
             </table>

@@ -16,13 +16,13 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
         </div>
     </nav>
 
     <div class="container">
         <div class="page-header">
-            <h1>Read Product</h1>
+            <h1>Read Category</h1>
         </div>
 
         <?php
@@ -36,7 +36,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name FROM categories WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -51,12 +51,6 @@
             // values to fill up our form
             $id = $row['id'];
             $name = $row['name'];
-            $category = $row['category'];
-            $description = $row['description'];
-            $price = $row['price'];
-            $promotion_price = $row['promotion_price'];
-            $manufacture_date = $row['manufacture_date'];
-            $expired_date = $row['expired_date'];
         }
 
         // show error
@@ -70,40 +64,16 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>id</td>
-                <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?> </td>
+                <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Name</td>
                 <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>category</td>
-                <td><?php echo htmlspecialchars($category, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>promotion_price</td>
-                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>manufacture_date</td>
-                <td><?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>expired_date</td>
-                <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
                 <td></td>
                 <td>
-                    <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='readProducts.php' class='btn btn-danger'>Back to read Categories</a>
                 </td>
             </tr>
         </table>

@@ -9,6 +9,7 @@
 
 <?php
 include 'config/nav.php';
+include 'session.php';
 ?>
 
 <body>
@@ -44,7 +45,6 @@ include 'config/nav.php';
         <?php
         // include database connection
         include 'config/database.php';
-        include 'session.php';
         
         //0 = all categories
         $categories = 0;
