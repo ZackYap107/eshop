@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+include 'session.php';
+?>
+
 <head>
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Bootstrap CSS -->
@@ -9,7 +13,6 @@
 
 <?php
 include 'config/nav.php';
-include 'session.php';
 ?>
 
 <body>
@@ -32,63 +35,61 @@ include 'session.php';
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
-                if($year != null){
+                if ($year != null) {
                     $age = $tyear - $year;
                 }
 
-                //if (isset($Username)) {
-                    $query = "SELECT Username FROM customers where Username = ?";
-                    $stmt = $con->prepare($query);
-                    $stmt->bindParam(1, $Username);
-                    $stmt->execute();
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (is_array($row)) {
-                        echo "<div class='alert alert-danger'>Username has used</div>";
-                    } //else if (isset($email)) {
-                        $query = "SELECT email FROM customers where email = ?";
-                        $stmt = $con->prepare($query);
-                        $stmt->bindParam(1, $email);
-                        $stmt->execute();
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                        if (is_array($row)) {
-                            echo "<div class='alert alert-danger'>Email account has used</div>";
-                        }
-                    //} else {
-                        if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
-                            echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
-                        } else if ($Password != $cPassword) {
-                            echo "<div class='alert alert-danger'>Password does not match</div>";
-                        } else if ($age <= 18) {
-                            echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
-                        } else if (empty($_POST["email"])) {
-                            echo "<div class='alert alert-danger'>Email is required</div>";
-                        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            echo "<div class='alert alert-danger'>Invalid email format</div>";
-                        } else {
-                            // insert query
-                            $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:Birthday";
-                            // prepare query for execution
-                            $stmt = $con->prepare($query);
-                            // bind the parameters
-                            $stmt->bindParam(':Username', $Username);
-                            $newpass = md5($Password);
-                            $stmt->bindParam(':Password', $newpass);
-                            //$stmt->bindParam(':ComfirmPassword', $cPassword);
-                            $stmt->bindParam(':FirstName', $FirstName);
-                            $stmt->bindParam(':LastName', $LastName);
-                            $stmt->bindParam(':email', $email);
-                            $stmt->bindParam(':Gender', $Gender);
-                            $stmt->bindParam(':Birthday', $dob);
+                $query = "SELECT Username FROM customers where Username = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(1, $Username);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (is_array($row)) {
+                    echo "<div class='alert alert-danger'>Username has used</div>";
+                }
 
-                            // Execute the query
-                            if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Record was saved</div>";
-                            } else {
-                                echo "<div class='alert alert-danger'>Unable to save record</div>";
-                            }
-                       // }
+                $query = "SELECT email FROM customers where email = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(1, $email);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (is_array($row)) {
+                    echo "<div class='alert alert-danger'>Email account has used</div>";
+                }
+
+                if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
+                    echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
+                } else if ($Password != $cPassword) {
+                    echo "<div class='alert alert-danger'>Password does not match</div>";
+                } else if ($age <= 18) {
+                    echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
+                } else if (empty($_POST["email"])) {
+                    echo "<div class='alert alert-danger'>Email is required</div>";
+                } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    echo "<div class='alert alert-danger'>Invalid email format</div>";
+                } else {
+                    // insert query
+                    $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:Birthday";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(':Username', $Username);
+                    $newpass = md5($Password);
+                    $stmt->bindParam(':Password', $newpass);
+                    //$stmt->bindParam(':ComfirmPassword', $cPassword);
+                    $stmt->bindParam(':FirstName', $FirstName);
+                    $stmt->bindParam(':LastName', $LastName);
+                    $stmt->bindParam(':email', $email);
+                    $stmt->bindParam(':Gender', $Gender);
+                    $stmt->bindParam(':Birthday', $dob);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record</div>";
                     }
-                //}
+                }
             }
             // show error
             catch (PDOException $exception) {

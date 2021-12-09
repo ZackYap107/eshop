@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+include 'session.php';
+?>
+
 <head>
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Bootstrap CSS -->
@@ -9,7 +13,6 @@
 
 <?php
 include 'config/nav.php';
-include 'session.php';
 ?>
 
 <body>
@@ -17,32 +20,31 @@ include 'session.php';
     <div class="container">
 
         <?php
+        if ($price != "" && $quantity != "") {
+            $total_price = $quantity * $price;
+        }
+
         if ($_POST) {
             // include database connection
-            include 'config/database.php'; 
+            include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO order SET order_id=:order_id, category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
+                $query = "INSERT INTO order SET category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
-                $order_id = htmlspecialchars(strip_tags($_POST['order_id']));
                 $category = htmlspecialchars(strip_tags($_POST['category']));
                 $products = htmlspecialchars(strip_tags($_POST['products']));
                 $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $total_price = htmlspecialchars(strip_tags($_POST['total_price']));
                 // bind the parameters
-                $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':category', $category);
-                $stmt->bindParam(':description', $description);
+                $stmt->bindParam(':products', $products);
+                $stmt->bindParam(':quantity', $quantity);
                 $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':promotion_price', $promotion_price);
-                $stmt->bindParam(':manufacture_date', $manufacture_date);
-                $stmt->bindParam(':expired_date', $expired_date);
+                $stmt->bindParam(':total_price', $total_price);
                 // specify when this record was inserted to the database
-                $created = date('Y-m-d H:i:s');
-                $stmt->bindParam(':created', $created);
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -62,32 +64,24 @@ include 'session.php';
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' minlength="1" required/></td>
-                </tr>
-                <tr>
                     <td>category</td>
-                    <td><input type='text' name='category' class='form-control' minlength="1" required/></td>
+                    <td><input type='text' name='category' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control' minlength="1" required></textarea></td>
+                    <td>products</td>
+                    <td><textarea name='products' class='form-control' minlength="1" required></textarea></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
-                    <td><input type='number' name='price' class='form-control' minlength="1" required/></td>
+                    <td>quantity</td>
+                    <td><input type='number' name='quantity' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
-                    <td>promotion_price</td>
-                    <td><input type='number' name='promotion_price' class='form-control'/></td>
+                    <td>price</td>
+                    <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
-                    <td>manufacture_date</td>
-                    <td><input type='date' name='manufacture_date' class='form-control' required /></td>
-                </tr>
-                <tr>
-                    <td>expired_date</td>
-                    <td><input type='date' name='expired_date' class='form-control' /></td>
+                    <td>total_price</td>
+                    <td><?php echo htmlspecialchars($total_price, ENT_QUOTES); ?></td>
                 </tr>
                 <tr>
                     <td></td>

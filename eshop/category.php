@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+include 'session.php';
+?>
+
 <head>
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Bootstrap CSS -->
@@ -19,7 +23,6 @@ include 'config/nav.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
-            include 'session.php';
             try {
                 // insert query
                 $query = "INSERT INTO categories SET name=:name";

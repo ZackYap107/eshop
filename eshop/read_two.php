@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+include 'session.php';
+?>
+
 <head>
     <title>PDO - Read One Record - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -32,7 +36,6 @@
 
         //include database connection
         include 'config/database.php';
-        include 'session.php';
 
         // read current record's data
         try {

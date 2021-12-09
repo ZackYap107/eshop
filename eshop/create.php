@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+include 'session.php';
+?>
+
 <head>
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Bootstrap CSS -->
@@ -9,7 +13,6 @@
 
 <?php
 include 'config/nav.php';
-include 'session.php';
 ?>
 
 <body>
