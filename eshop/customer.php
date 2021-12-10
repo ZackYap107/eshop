@@ -33,11 +33,13 @@ include 'config/nav.php';
                 $email = htmlspecialchars(strip_tags($_POST['email']));
                 $Gender = isset($_POST['Gender']) ? $_POST['Gender'] : "";
                 $dob = htmlspecialchars(strip_tags($_POST['Birthday']));
+                $flag = 1;
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
                 if ($year != null) {
                     $age = $tyear - $year;
                 }
+                
 
                 $query = "SELECT Username FROM customers where Username = ?";
                 $stmt = $con->prepare($query);
@@ -45,6 +47,7 @@ include 'config/nav.php';
                 $stmt->execute();
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (is_array($row)) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>Username has used</div>";
                 }
 
@@ -54,20 +57,27 @@ include 'config/nav.php';
                 $stmt->execute();
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (is_array($row)) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>Email account has used</div>";
                 }
 
                 if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
+                    $flag = 0;
                     echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
                 } else if ($Password != $cPassword) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>Password does not match</div>";
                 } else if ($age <= 18) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>User should be greater than 18 years old</div>";
                 } else if (empty($_POST["email"])) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>Email is required</div>";
                 } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $flag = 0;
                     echo "<div class='alert alert-danger'>Invalid email format</div>";
-                } else {
+                } 
+                if($flag == 1) {
                     // insert query
                     $query = "INSERT INTO customers SET Username=:Username, Password=:Password, FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:Birthday";
                     // prepare query for execution

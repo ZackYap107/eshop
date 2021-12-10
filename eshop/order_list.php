@@ -32,9 +32,9 @@ include 'config/nav.php';
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
         
-        $query = "SELECT createorder.order_id as id, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
-        FROM createorder 
-        INNER JOIN categories ON createorder.category = categories.id ORDER BY createorder.order_id ASC";
+        $query = "SELECT create_order.order_id as id, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+        FROM create_order 
+        INNER JOIN categories ON create_order.category = categories.id ORDER BY create_order.order_id ASC";
         
         $stmt = $con->prepare($query);
         $stmt->execute();

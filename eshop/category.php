@@ -24,19 +24,35 @@ include 'config/nav.php';
             // include database connection
             include 'config/database.php';
             try {
-                // insert query
-                $query = "INSERT INTO categories SET name=:name";
-                // prepare query for execution
-                $stmt = $con->prepare($query);
-                // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                // bind the parameters
-                $stmt->bindParam(':name', $name);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                $flag = 1;
+
+                $query = "SELECT name FROM categories where name = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(1, $name);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (is_array($row)) {
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Category name has used</div>";
+                }
+
+                // insert query
+                if ($flag == 1) {
+                    $query = "INSERT INTO categories SET name=:name";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
+                    // posted values
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
                 }
             }
             // show error
@@ -50,8 +66,8 @@ include 'config/nav.php';
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='category' class='form-control' minlength="1" required/></td>
+                    <td>Category Name</td>
+                    <td><input type='text' name='name' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
                     <td></td>

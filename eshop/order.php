@@ -13,6 +13,7 @@ include 'session.php';
 
 <?php
 include 'config/nav.php';
+$myUsername = $_SESSION["Username"];
 ?>
 
 <body>
@@ -33,6 +34,7 @@ include 'config/nav.php';
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
+
                 $category = htmlspecialchars(strip_tags($_POST['category']));
                 $products = htmlspecialchars(strip_tags($_POST['products']));
                 $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
@@ -63,9 +65,16 @@ include 'config/nav.php';
         <!-- html form here where the product information will be entered -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <table class='table table-hover table-responsive table-bordered'>
-                <tr>
-                    <td>Category</td>
-                    <td><input type='text' name='category' class='form-control' minlength="1" required /></td>
+                <td>Category</td>
+                <td>
+                <select class="w-25 col-2 p-2" aria-label="Default select example" name="categories">
+                    <option value="0" name="a" selected>All Category</option>
+                    <option value="1" name="g">General</option>
+                    <option value="2" name="s">Sport</option>
+                    <option value="3" name="e">Engine</option>
+                </select>
+                    <input type='submit' value='Submit' class='btn btn-secondary col-2 m-2' />
+                </td>
                 </tr>
                 <tr>
                     <td>Products</td>
@@ -74,6 +83,10 @@ include 'config/nav.php';
                 <tr>
                     <td>Quantity</td>
                     <td><input type='number' name='quantity' class='form-control' minlength="1" required /></td>
+                </tr>
+                <tr>
+                    <td>User Name</td>
+                    <td><?php echo htmlspecialchars($myUsername, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
                     <td>Price</td>
@@ -86,7 +99,7 @@ include 'config/nav.php';
                 <tr>
                     <td></td>
                     <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <input type='submit' value='Order Now' class='btn btn-primary' />
                         <a href='order_list.php' class='btn btn-danger'>Back to read products</a>
                     </td>
                 </tr>

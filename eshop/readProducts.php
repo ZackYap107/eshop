@@ -3,6 +3,8 @@
 
 <?php
 include 'session.php';
+// include database connection
+include 'config/database.php';
 ?>
 
 <head>
@@ -31,9 +33,19 @@ include 'config/nav.php';
                     <td>
                         <select class="w-25 col-2 p-2" aria-label="Default select example" name="categories">
                             <option value="0" name="a" selected>All Category</option>
-                            <option value="1" name="g">General</option>
-                            <option value="2" name="s">Sport</option>
-                            <option value="3" name="e">Engine</option>
+                            <!--<option value="1" name="g">General</option>
+                                    <option value="2" name="s">Sport</option>
+                                    <option value="3" name="e">Engine</option> -->
+                            <?php
+                            $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
+                            $stmt = $con->prepare($query);
+                            $stmt->execute();
+                            $num = $stmt->rowCount();
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row);
+                                echo "<option value='$cid' name='$'>$cname</option>";
+                            }
+                            ?>
                         </select>
                     </td>
             <tr>
@@ -46,8 +58,7 @@ include 'config/nav.php';
             </tr>
         </div>
         <?php
-        // include database connection
-        include 'config/database.php';
+
 
         // delete message prompt will be here
         $action = isset($_GET['action']) ? $_GET['action'] : "";

@@ -4,7 +4,7 @@ include 'config/database.php';
 try {     
     // get record Username
     // isset() is a PHP function used to verify if a value is there or not
-    $id=isset($_GET['Username']) ? $_GET['Username'] :  die('ERROR: Record Username not found.');
+    $Username=isset($_GET['Username']) ? $_GET['Username'] :  die('ERROR: Record Username not found.');
 
     // delete query
     $query = "DELETE FROM customers WHERE Username = ?";
