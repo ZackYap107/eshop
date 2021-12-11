@@ -46,7 +46,10 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, category, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ?";
+            /*
+            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id WHERE id = ?";
+            */
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -60,9 +63,12 @@ include 'session.php';
 
             // values to fill up our form
             $name = $row['name'];
-            $category = $row['category'];
+            $cname = $row['category'];
             $description = $row['description'];
             $price = $row['price'];
+            $promotion_price = $row['promotion_price'];
+            $manufacture_date = $row['manufacture_date'];
+            $expired_date = $row['expired_date'];
 
             // retrieve our table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -73,9 +79,12 @@ include 'session.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-                echo "<td>{$category}</td>";
+                echo "<td>{$cname}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>${$price}</td>";
+                echo "<td>${$promotion_price}</td>";
+                echo "<td>${$manufacture_date}</td>";
+                echo "<td>${$expired_date}</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
@@ -97,20 +106,25 @@ include 'session.php';
         ?>
 
         <?php
+
         // check if form was submitted
         if ($_POST) {
             try {
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                $category = htmlspecialchars(strip_tags($_POST['category']));
+                $cname = htmlspecialchars(strip_tags($_POST['category']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
+                $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+                $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+                $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
+                $tday = date("d/m/Y");
                 $flag = 1;
 
                 if($name == "" ){
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product name</div>";
                 }
-                if($category == "" ){
+                if($cname == "" ){
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product category</div>";
                 }
@@ -122,18 +136,42 @@ include 'session.php';
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product price</div>";
                 }
+                if($manufacture_date == "" ){
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your manufacture date</div>";
+                }
+                if($expired_date == "" ){
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Please fill in your expired date</div>";
+                }
+                if ($expired_date != ""){
+                    $exdate = $expired_date - $tday;
+                    if ($exdate < $tday){
+                        $flag = 0;
+                        echo "<div class='alert alert-danger'>The product are expired</div>";
+                    }
+                }
+                
+                echo $exdate;
+                echo "<br>";
+                echo $tday;
+                echo "<br>";
+                echo $expired_date;
 
                 if ($flag == 1){
                     $query = "UPDATE products
-                    SET name=:name, category=:category, description=:description, price=:price WHERE id = :id";
+                    SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE id = :id";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
                     // bind the parameters
-                    $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':category', $category);
-                    $stmt->bindParam(':description', $description);
-                    $stmt->bindParam(':price', $price);
                     $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':category', $cname);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':promotion_price', $promotion_price);
+                    $stmt->bindParam(':manufacture_date', $manufacture_date);
+                    $stmt->bindParam(':expired_date', $expired_date);
+                    $stmt->bindParam(':price', $price);
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -162,7 +200,7 @@ include 'session.php';
                 </tr>
                 <tr>
                     <td>category</td>
-                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($category, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($cname, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>
@@ -171,6 +209,18 @@ include 'session.php';
                 <tr>
                     <td>Price</td>
                     <td><input type='number' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Promotion Price</td>
+                    <td><input type='number' name='promotion_price' value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Manufacture Date</td>
+                    <td><input type='date' name='manufacture_date' value="<?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Expired Date</td>
+                    <td><input type='date' name='expired_date' value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>
