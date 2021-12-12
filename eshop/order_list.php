@@ -19,6 +19,11 @@ include 'config/nav.php';
 
     <!-- container -->
     <div class="container">
+        <td>
+            <?php
+            echo "<a href='order.php' class='btn btn-primary m-b-1em col-1 my-2'>Order Now</a>";
+            ?>
+        </td>
 
         <?php
         // include database connection
@@ -31,11 +36,10 @@ include 'config/nav.php';
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
-        
-        $query = "SELECT create_order.order_id as id, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
-        FROM create_order 
-        INNER JOIN categories ON create_order.category = categories.id ORDER BY create_order.order_id ASC";
-        
+
+        $query = "SELECT create_order.order_id, name, order_date
+        FROM create_order ORDER BY create_order.order_id ASC";
+
         $stmt = $con->prepare($query);
         $stmt->execute();
         //$stmt->bindParam(':categories', $categories);
@@ -50,12 +54,8 @@ include 'config/nav.php';
             //creating our table heading
             echo "<tr>";
             echo "<th>Order ID</th>";
-            echo "<th>Category</th>";
-            echo "<th>Products</th>";
-            echo "<th>Quantity</th>";
+            echo "<th>Name</th>";
             echo "<th>Order Date</th>";
-            echo "<th>Price</th>";
-            echo "<th>Total Price</th>";
             echo "</tr>";
 
             // retrieve our table contents
@@ -65,22 +65,18 @@ include 'config/nav.php';
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$id}</td>";
-                echo "<td>{$cname}</td>";
-                echo "<td>{$products}</td>";
-                echo "<td>{$quantity}</td>";
+                echo "<td>{$order_id}</td>";
+                echo "<td>{$name}</td>";
                 echo "<td>{$order_date}</td>";
-                echo "<td>{$price}</td>";
-                echo "<td>{$total_price}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='read_order.php?order_id={$order_id}' class='btn btn-info m-r-1em'> Order Detail </a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                //echo "<a href='update.php?order_id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

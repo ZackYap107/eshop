@@ -26,13 +26,13 @@ include 'session.php';
 
     <div class="container">
         <div class="page-header">
-            <h1>Read Product</h1>
+            <h1>Read Order List</h1>
         </div>
 
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+        $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record order ID not found.');
 
         //include database connection
         include 'config/database.php';
@@ -40,12 +40,17 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
-            //$query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
+            $query = "SELECT create_order.order_id, name, category, products, quantity, order_date, price, total_price FROM create_order WHERE create_order.order_id = ? LIMIT 0,1";
+
+            /*$query = "SELECT create_order.order_id, name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+            FROM create_order 
+            INNER JOIN categories ON create_order.category = categories.id ORDER BY create_order.order_id ASC";
+            */
+
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $id);
+            $stmt->bindParam(1, $order_id);
 
             // execute our query
             $stmt->execute();
@@ -54,14 +59,14 @@ include 'session.php';
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
-            $id = $row['id'];
+            $order_id = $row['order_id'];
             $name = $row['name'];
-            //$cname = $row['category'];
-            $description = $row['description'];
+            $category = $row['category'];
+            $products = $row['products'];
+            $quantity = $row['quantity'];
+            $order_date = $row['order_date'];
             $price = $row['price'];
-            $promotion_price = $row['promotion_price'];
-            $manufacture_date = $row['manufacture_date'];
-            $expired_date = $row['expired_date'];
+            $total_price = $row['total_price'];
         }
 
         // show error
@@ -74,8 +79,8 @@ include 'session.php';
         <!--we have our html table here where the record will be displayed-->
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td>id</td>
-                <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?> </td>
+                <td>Order ID</td>
+                <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?> </td>
             </tr>
             <tr>
                 <td>Name</td>
@@ -83,32 +88,33 @@ include 'session.php';
             </tr>
             <tr>
                 <td>category</td>
-                <td><?php echo htmlspecialchars($cname, ENT_QUOTES);  ?></td>
+                
+                <td><?php echo htmlspecialchars($category, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Description</td>
-                <td><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></td>
+                <td>products</td>
+                <td><?php echo htmlspecialchars($products, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>Price</td>
+                <td>quantity</td>
+                <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>order_date</td>
+                <td><?php echo htmlspecialchars($order_date, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>price</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>promotion_price</td>
-                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>manufacture_date</td>
-                <td><?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>expired_date</td>
-                <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
+                <td>total_price</td>
+                <td><?php echo htmlspecialchars($total_price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='order_list.php' class='btn btn-danger'>Back to read Order List</a>
                 </td>
             </tr>
         </table>
