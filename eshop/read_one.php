@@ -40,8 +40,8 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
-            //$query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
+            //$query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT products.id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id WHERE products.id = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -56,7 +56,7 @@ include 'session.php';
             // values to fill up our form
             $id = $row['id'];
             $name = $row['name'];
-            //$cname = $row['category'];
+            $cname = $row['cname'];
             $description = $row['description'];
             $price = $row['price'];
             $promotion_price = $row['promotion_price'];

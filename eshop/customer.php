@@ -123,11 +123,11 @@ include 'config/nav.php';
                 <td><input type='password' name='ComfirmPassword' class='form-control' minlength="6" /></td>
                 </tr>
                 <tr>
-                    <td>FirstName</td>
+                    <td>First Name</td>
                     <td><input type='text' name='FirstName' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>LastName</td>
+                    <td>Last Name</td>
                     <td><input type='text' name='LastName' class='form-control' /></td>
                 </tr>
                 <tr>

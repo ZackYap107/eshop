@@ -40,7 +40,11 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT create_order.order_id, name, category, products, quantity, order_date, price, total_price FROM create_order WHERE create_order.order_id = ? LIMIT 0,1";
+            $query = "SELECT order_id, create_order.name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+            FROM create_order 
+            INNER JOIN categories ON create_order.category = categories.id
+            WHERE order_id = ?";
+            //INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC
 
             /*$query = "SELECT create_order.order_id, name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
             FROM create_order 
@@ -61,7 +65,7 @@ include 'session.php';
             // values to fill up our form
             $order_id = $row['order_id'];
             $name = $row['name'];
-            $category = $row['category'];
+            $cname = $row['cname'];
             $products = $row['products'];
             $quantity = $row['quantity'];
             $order_date = $row['order_date'];
@@ -89,7 +93,7 @@ include 'session.php';
             <tr>
                 <td>category</td>
                 
-                <td><?php echo htmlspecialchars($category, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($cname, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>products</td>
