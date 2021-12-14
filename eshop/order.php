@@ -30,7 +30,7 @@ $myUsername = $_SESSION["Username"];
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO order SET order_id=:order_id, category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
+                $query = "INSERT INTO orders SET order_id=:order_id, category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values

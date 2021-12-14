@@ -18,7 +18,7 @@
         <div class="page-header">
             <h1>Create Order</h1>
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method='post'>
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method='POST'>
             <table class='table table-hover table-responsive table-bordered'>
                 <?php
                 include 'config/database.php';

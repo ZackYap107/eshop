@@ -7,7 +7,7 @@ try {
     $id=isset($_GET['order_id']) ? $_GET['order_id'] :  die('ERROR: Record order id not found.');
 
     // delete query
-    $query = "DELETE FROM order WHERE order_id = ?";
+    $query = "DELETE FROM orders WHERE order_id = ?";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $order_id);
      

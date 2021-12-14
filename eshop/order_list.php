@@ -38,8 +38,8 @@ include 'config/nav.php';
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
-        $query = "SELECT create_order.order_id, name, order_date
-        FROM create_order ORDER BY create_order.order_id ASC";
+        $query = "SELECT orders.order_id, customer, order_date
+        FROM orders ORDER BY orders.order_id ASC";
 
         $stmt = $con->prepare($query);
         $stmt->execute();
@@ -67,7 +67,7 @@ include 'config/nav.php';
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$order_id}</td>";
-                echo "<td>{$name}</td>";
+                echo "<td>{$customer}</td>";
                 echo "<td>{$order_date}</td>";
                 echo "<td>";
                 // read one record
