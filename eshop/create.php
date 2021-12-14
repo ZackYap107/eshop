@@ -19,7 +19,7 @@ include 'config/database.php';
 <body>
     <!-- container -->
     <div class="container">
-
+    <h1>Create Product</h1>
         <?php
 
 

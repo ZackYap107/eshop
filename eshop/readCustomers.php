@@ -18,6 +18,7 @@ include 'config/nav.php';
 <body>
     <!-- container -->
     <div class="container">
+    <h1>Customer List</h1>
         <?php
 
         // include database connection

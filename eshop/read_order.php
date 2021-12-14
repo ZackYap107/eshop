@@ -25,6 +25,7 @@ include 'session.php';
     </nav>
 
     <div class="container">
+        <h1>Order List</h1>
         <div class="page-header">
             <h1>Read Order List</h1>
         </div>

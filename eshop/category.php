@@ -18,7 +18,7 @@ include 'config/nav.php';
 <body>
     <!-- container -->
     <div class="container">
-
+    <h1>Create Category</h1>
         <?php
         if ($_POST) {
             // include database connection

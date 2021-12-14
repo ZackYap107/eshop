@@ -21,6 +21,7 @@ include 'config/nav.php';
 
     <!-- container -->
     <div class="container">
+    <h1>Product List</h1>
         <div class="dropdown row">
             <tr>
                 <td>

@@ -17,6 +17,7 @@ include 'config/nav.php';
 
 <body>
     <div class="container">
+    <h1>Category List</h1>
     <!-- container -->
     <?php
 

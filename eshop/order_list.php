@@ -19,6 +19,7 @@ include 'config/nav.php';
 
     <!-- container -->
     <div class="container">
+    <h1>Order List</h1>
         <td>
             <?php
             echo "<a href='order.php' class='btn btn-primary m-b-1em col-1 my-2'>Order Now</a>";

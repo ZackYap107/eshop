@@ -19,7 +19,7 @@ $myUsername = $_SESSION["Username"];
 <body>
     <!-- container -->
     <div class="container">
-
+    <h1>Create Order</h1>
         <?php
         /*if ($price !== NULL && $quantity !== NULL) {
             $total_price = $quantity * $price;
