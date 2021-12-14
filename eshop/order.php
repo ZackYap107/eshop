@@ -30,17 +30,19 @@ $myUsername = $_SESSION["Username"];
             include 'config/database.php';
             try {
                 // insert query
-                $query = "INSERT INTO order SET category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
+                $query = "INSERT INTO order SET order_id=:order_id, category=:category, products=:products, quantity=:quantity, price=:price, total_price=:total_price";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
 
+                $order_id = htmlspecialchars(strip_tags($_POST['order_id']));
                 $category = htmlspecialchars(strip_tags($_POST['category']));
                 $products = htmlspecialchars(strip_tags($_POST['products']));
                 $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $total_price = htmlspecialchars(strip_tags($_POST['total_price']));
                 // bind the parameters
+                $stmt->bindParam(':order_id', $order_id);
                 $stmt->bindParam(':category', $category);
                 $stmt->bindParam(':products', $products);
                 $stmt->bindParam(':quantity', $quantity);
@@ -50,7 +52,7 @@ $myUsername = $_SESSION["Username"];
 
                 // Execute the query
                 if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
+                    echo "<div class='alert alert-success'>Order Susscessful. Order ID is $order_id</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                 }

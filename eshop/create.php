@@ -13,6 +13,7 @@ include 'session.php';
 
 <?php
 include 'config/nav.php';
+include 'config/database.php';
 ?>
 
 <body>
@@ -20,17 +21,22 @@ include 'config/nav.php';
     <div class="container">
 
         <?php
+
+
+        $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
+        $stmt = $con->prepare($query);
+
+
         if ($_POST) {
-            // include database connection
-            include 'config/database.php';
+            
             try {
                 // insert query
-                $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
+                $query = "INSERT INTO products SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
-                $category = htmlspecialchars(strip_tags($_POST['category']));
+                $cid = htmlspecialchars(strip_tags($_POST['cid']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
@@ -38,7 +44,7 @@ include 'config/nav.php';
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 // bind the parameters
                 $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':category', $category);
+                $stmt->bindParam(':category', $cid);
                 $stmt->bindParam(':description', $description);
                 $stmt->bindParam(':price', $price);
                 $stmt->bindParam(':promotion_price', $promotion_price);
@@ -47,6 +53,7 @@ include 'config/nav.php';
                 // specify when this record was inserted to the database
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
+
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -71,7 +78,19 @@ include 'config/nav.php';
                 </tr>
                 <tr>
                     <td>category</td>
-                    <td><input type='text' name='category' class='form-control' minlength="1" required/></td>
+                    <td><select class="w-25 col-2 p-2" aria-label="Default select example" name="cid">
+                            <option value="0" name="a" selected>Select Category</option>
+                            <?php
+                            $cquery = "SELECT categories.id as cid, categories.name as cname FROM categories";
+                            $stmt = $con->prepare($cquery);
+                            $stmt->execute();
+                            $num = $stmt->rowCount();
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row);
+                                echo "<option value='$cid' name='$'>$cname</option>";
+                            }
+                            ?>
+                        </select></td>
                 </tr>
                 <tr>
                     <td>Description</td>
