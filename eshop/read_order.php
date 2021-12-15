@@ -41,15 +41,15 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT order_id, create_order.name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
-            FROM create_order 
-            INNER JOIN categories ON create_order.category = categories.id
+            $query = "SELECT order_id, orders.customer, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+            FROM orders
+            INNER JOIN categories ON orders.category = categories.id
             WHERE order_id = ?";
             //INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC
 
-            /*$query = "SELECT create_order.order_id, name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
-            FROM create_order 
-            INNER JOIN categories ON create_order.category = categories.id ORDER BY create_order.order_id ASC";
+            /*$query = "SELECT orders.order_id, name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+            FROM orders 
+            INNER JOIN categories ON orders.category = categories.id ORDER BY orders.order_id ASC";
             */
 
             $stmt = $con->prepare($query);
@@ -65,7 +65,7 @@ include 'session.php';
 
             // values to fill up our form
             $order_id = $row['order_id'];
-            $name = $row['name'];
+            $customer = $row['customer'];
             $cname = $row['cname'];
             $products = $row['products'];
             $quantity = $row['quantity'];
@@ -89,7 +89,7 @@ include 'session.php';
             </tr>
             <tr>
                 <td>Name</td>
-                <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($customer, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>category</td>
