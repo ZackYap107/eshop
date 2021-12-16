@@ -42,7 +42,7 @@
                     $product_id = $_POST['product_id'];
                     $quantity = $_POST['quantity'];
                     $flag = 1;
-                    $msg = "";
+                    $total = 0;
 
                     if ($customer == "") {
                         $flag = 0;
@@ -52,16 +52,29 @@
                     for ($y = 0; $y < count($product_id); $y++) {
                         if ($product_id[$y] == "" || $quantity[$y] == "") {
                             $flag = 0;
-                            $msg = "Please choose a product and quantity. ";
+                            echo "<div class='alert alert-success'>Please choose a product and quantity</div>";
                         }
                     }
 
                     if ($flag == 1) {
+                        //select quantity and product price
+                        /*$query = "SELECT price
+                        FROM products";
+                        $stmt = $con->prepare($query);
+                        $stmt->execute();
+                        $stmt->bindParam(':price', $price);
+                        if ($quantity[$y] != ""){
+                            $total = ($quantity[$y]) * $price;
+                        }*/
+
+                        //$stmt->bindParam(':categories', $categories);
+                        // this is how to get number of rows returned
+                        //$num = $stmt->rowCount();
                         // insert query
                         $query = "INSERT INTO orders SET customer=:customer, quantity=:quantity, products=:products";
                         $stmt = $con->prepare($query);
                         $stmt->bindParam(':customer', $customer);
-                        $stmt->bindParam(':quantity', $quantity);
+                        $stmt->bindParam(':quantity', $y);
                         $stmt->bindParam(':products', $products);
                         $stmt->execute();
                         $id = $con->lastInsertId();
@@ -85,7 +98,7 @@
                             $stmt->execute();
                         }
                     } else {
-                        echo "<div class='alert alert-danger'>$msg</div>";
+                        echo "<div class='alert alert-danger'>Unable to save record</div>";
                     }
                     if (count($product_id) !== count(array_unique($product_id))) {
                         $flag = 0;
@@ -122,7 +135,7 @@
                             <td>Product</td>
                             <td>
                                 <div>
-                                    <select class='form-select' name='productID[]'>
+                                    <select class='form-select' name='product_id[]'>
                                         <option value=''>Select Product</option>
                                         <?php
                                         $productquery = "SELECT id, name FROM products";
