@@ -40,9 +40,9 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT order_id, orders.customer, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
+            $query = "SELECT order_id, orders.customer, product_id, quantity, order_date, products.price as pprice, products.id as pid, products.name as pname
             FROM orders
-            INNER JOIN categories ON orders.category = categories.id
+            INNER JOIN products ON orders.product_id = products.id
             WHERE order_id = ?";
             //INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC
 
@@ -65,12 +65,11 @@ include 'session.php';
             // values to fill up our form
             $order_id = $row['order_id'];
             $customer = $row['customer'];
-            $cname = $row['cname'];
-            $products = $row['products'];
+            $pid = $row['pid'];
+            $pname = $row['pname'];
             $quantity = $row['quantity'];
             $order_date = $row['order_date'];
-            $price = $row['price'];
-            $total_price = $row['total_price'];
+            $pprice = $row['pprice'];
         }
 
         // show error
@@ -91,30 +90,32 @@ include 'session.php';
                 <td><?php echo htmlspecialchars($customer, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>category</td>
+                <td>Product ID</td>
                 
-                <td><?php echo htmlspecialchars($cname, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($pid, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>products</td>
-                <td><?php echo htmlspecialchars($products, ENT_QUOTES);  ?></td>
+                <td>Products</td>
+                <td><?php echo htmlspecialchars($pname, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>quantity</td>
+                <td>Quantity</td>
                 <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>order_date</td>
+                <td>Order Date</td>
                 <td><?php echo htmlspecialchars($order_date, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>price</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                <td>Price</td>
+                <td><?php echo htmlspecialchars($pprice, ENT_QUOTES);  ?></td>
             </tr>
+            <!--
             <tr>
-                <td>total_price</td>
-                <td><?php echo htmlspecialchars($total_price, ENT_QUOTES);  ?></td>
+                <td>Total Price</td>
+                <td><?php //echo htmlspecialchars($total_price, ENT_QUOTES);  ?></td>
             </tr>
+            -->
             <tr>
                 <td></td>
                 <td>

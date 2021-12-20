@@ -77,7 +77,7 @@ include 'config/nav.php';
                 //echo "<a href='update.php?order_id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user(\"{$order_id}\");'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -99,7 +99,7 @@ include 'config/nav.php';
         // confirm record deletion
         function delete_user(order_id) {
 
-            var answer = confirm('Are you sure to delete this product?');
+            var answer = confirm('Are you sure to delete this order?');
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query

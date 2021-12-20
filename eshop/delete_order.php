@@ -4,7 +4,7 @@ include 'config/database.php';
 try {     
     // get record ID
     // isset() is a PHP function used to verify if a value is there or not
-    $id=isset($_GET['order_id']) ? $_GET['order_id'] :  die('ERROR: Record order id not found.');
+    $order_id=isset($_GET['order_id']) ? $_GET['order_id'] :  die('ERROR: Record order id not found.');
 
     // delete query
     $query = "DELETE FROM orders WHERE order_id = ?";
