@@ -44,12 +44,8 @@ include 'session.php';
             FROM orders
             INNER JOIN products ON orders.product_id = products.id
             WHERE order_id = ?";
-            //INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC
 
-            /*$query = "SELECT orders.order_id, name, category, products, quantity, order_date, price, total_price, categories.id as cid, categories.name as cname
-            FROM orders 
-            INNER JOIN categories ON orders.category = categories.id ORDER BY orders.order_id ASC";
-            */
+            //LEFT JOIN orderdetails ON orders.order_id = orderdetails.order_id
 
             $stmt = $con->prepare($query);
 
@@ -63,7 +59,9 @@ include 'session.php';
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
+            //for ($o = 0; count($oid); $o++){
             $order_id = $row['order_id'];
+            //}
             $customer = $row['customer'];
             $pid = $row['pid'];
             $pname = $row['pname'];
