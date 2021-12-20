@@ -43,46 +43,62 @@
                     $quantity = $_POST['quantity'];
                     $flag = 1;
                     $total = 0;
+                    $getProduct = 0;
 
                     if ($customer == "") {
                         $flag = 0;
                         $msg = "Please choose a username. ";
                     }
 
+                    for ($x =0; $x <5; $x++){
+
+                    }
+
+                    echo count($product_id);
+
                     for ($y = 0; $y < count($product_id); $y++) {
                         if ($product_id[$y] == "" || $quantity[$y] == "") {
                             $flag = 0;
                             echo "<div class='alert alert-success'>Please choose a product and quantity</div>";
+                        }else{
+                            $getProductid = $product_id[$y];
+                            $getQuantity =$quantity[$y];
+
+                            //select quantity and product price
+                            $query = "SELECT price
+                            FROM products";
+                            $stmt = $con->prepare($query);
+                            $stmt->execute();
+                            $stmt->bindParam(':price', $price);
+                            if ($quantity[$y] != ""){
+                                $total = ($quantity[$y]) * $price;
+                            }
+
+                            //$stmt->bindParam(':categories', $categories);
+                            // this is how to get number of rows returned
+                            //$num = $stmt->rowCount();
+                            // insert query
+                            $query = "INSERT INTO orders SET customer=:customer, quantity=:quantity, category = 1 ,product_id=:product_id";
+                            $stmt = $con->prepare($query);
+                            $stmt->bindParam(':customer', $customer);
+                            $stmt->bindParam(':quantity', $getQuantity);
+                            $stmt->bindParam(':product_id', $getProductid);
+                            $stmt->execute();
+                            $id = $con->lastInsertId();
+                            echo "<div class='alert alert-success'>Record was saved. The Order ID is $id.</div>";
+
+
+
+
                         }
                     }
 
                     if ($flag == 1) {
-                        //select quantity and product price
-                        /*$query = "SELECT price
-                        FROM products";
-                        $stmt = $con->prepare($query);
-                        $stmt->execute();
-                        $stmt->bindParam(':price', $price);
-                        if ($quantity[$y] != ""){
-                            $total = ($quantity[$y]) * $price;
-                        }*/
-
-                        //$stmt->bindParam(':categories', $categories);
-                        // this is how to get number of rows returned
-                        //$num = $stmt->rowCount();
-                        // insert query
-                        $query = "INSERT INTO orders SET customer=:customer, quantity=:quantity, products=:products";
-                        $stmt = $con->prepare($query);
-                        $stmt->bindParam(':customer', $customer);
-                        $stmt->bindParam(':quantity', $y);
-                        $stmt->bindParam(':products', $products);
-                        $stmt->execute();
-                        $id = $con->lastInsertId();
-                        echo "<div class='alert alert-success'>Record was saved. The Order ID is $id.</div>";
+                        
 
                         for ($y = 0; $y < count($product_id); $y++) {
                             // insert query
-                            $query = "INSERT INTO orderdetails SET order_id=:order_id, product_id=:product_id, quantity=:quantity";
+                            $query = "INSERT INTO orderdetails SET order_id=:order_id, product_id=:product_id, quantity=:quantity, name=:name";
                             // prepare query for execution
                             $stmt = $con->prepare($query);
 
@@ -90,6 +106,7 @@
                             $stmt->bindParam(':order_id', $id);
                             $stmt->bindParam(':product_id', $product_id[$y]);
                             $stmt->bindParam(':quantity', $quantity[$y]);
+                            $stmt->bindParam(':name', $customer);
 
                             // echo $product_id[$y]. "<br>";
                             // echo $quantity[$y]. "<br>"; 
@@ -104,7 +121,8 @@
                         $flag = 0;
                         $msg = "Products cannot be repeated. ";
                     }
-                }
+                    
+                } // end of $_post
 
                 echo "<tr>";
                 echo "<td>Customer ID</td>";
