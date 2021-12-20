@@ -139,7 +139,7 @@ include 'session.php';
                 }
                 if ($email == "") {
                     $p = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your email</div>";
+                    echo "<div class='alert alert-danger'>Please fill in your Email</div>";
                 }
                 if ($age < 18) {
                     $p = 0;
@@ -147,15 +147,16 @@ include 'session.php';
                 }
 
                 if ($email != "") {
-                    $query = "SELECT email FROM customers where email = ?";
+                    $query = "SELECT email FROM customers where Username <> ? AND email = ?";
                     $stmt = $con->prepare($query);
-                    $stmt->bindParam(1, $email);
+                    $stmt->bindParam(1, $Username);
+                    $stmt->bindParam(2, $email);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     if (is_array($row)) {
                         $p = 0;
-                        echo "<div class='alert alert-secondary'>Email account has used / Keep original Email account</div>";
+                        echo "<div class='alert alert-danger'>Email account has used</div>";
                     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         $p = 0;
                         echo "<div class='alert alert-danger'>Invalid email format</div>";
