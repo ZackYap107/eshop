@@ -26,13 +26,13 @@ include 'session.php';
 
     <div class="container">
         <div class="page-header">
-            <h1>Read Order List</h1>
+            <h1>Read Order</h1>
         </div>
 
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record order ID not found.');
+        $proid = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record order id not found.');
 
         //include database connection
         include 'config/database.php';
@@ -40,91 +40,67 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT order_id, orders.customer, product_id, quantity, order_date, products.price as pprice, products.id as pid, products.name as pname
-            FROM orders
-            INNER JOIN products ON orders.product_id = products.id
+            $query = "SELECT order_id, orderdetails.name, product_id, quantity, order_date, products.price as pprice, products.id as pid, products.name as pname
+            FROM orderdetails
+            INNER JOIN products 
+            ON orderdetails.product_id = products.id
             WHERE order_id = ?";
-
-            //LEFT JOIN orderdetails ON orders.order_id = orderdetails.order_id
-
             $stmt = $con->prepare($query);
-
             // this is the first question mark
-            $stmt->bindParam(1, $order_id);
-
+            $stmt->bindParam(1, $proid);
             // execute our query
             $stmt->execute();
-
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
             // values to fill up our form
-            //for ($o = 0; count($oid); $o++){
             $order_id = $row['order_id'];
-            //}
-            $customer = $row['customer'];
-            $pid = $row['pid'];
-            $pname = $row['pname'];
-            $quantity = $row['quantity'];
+            $customer = $row['name'];
+            //$pid = $row['pid'];
+            //$pname = $row['pname'];
+            //$quantity = $row['quantity'];
             $order_date = $row['order_date'];
-            $pprice = $row['pprice'];
+            //$pprice = $row['pprice'];
+            $totalamount = 0;
+            
+        ?>
+            <table class='table table-hover table-responsive table-bordered'>
+                <tr><td class='col-5'>Order Date</td><td class='col-6'><?php echo $order_date ?></td></tr>
+                <tr><td class='col-5'>Customer Name</td><td class='col-6'><?php echo $customer ?></td></tr>
+                <tr><td class='col-5'>Order ID</td><td class='col-6'><?php echo "OID ". $order_id ?></td></tr>
+            </table>
+            <?php 
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {  
+                    extract($row);
+                    echo "<table class='table table-hover table-responsive table-bordered class='col-5'>";
+                    echo "<tr><td class='col-5'>Product ID</td><td class='col-6'>{$pid}</td></tr>";
+                    echo "<tr><td class='col-5'>Product Name</td><td class='col-6'>{$pname}</td></tr>";
+                    echo "<tr><td class='col-5'>Quantity</td><td class='col-6'>{$quantity}</td></tr>";
+                    echo "<tr><td class='col-5'>Price</td><td class='col-6'>{$pprice}</td></tr>";
+                    $total = ($pprice * $quantity);
+                    echo "<tr><td>Total</td><td colspan='7'>{$total}</td></tr>";
+                    $totalamount = $totalamount + $total;
+                    echo "</table>";
+                }
+            ?>
+                <?php
+                    echo "<table class='table table-hover table-responsive table-bordered col-5'>";
+                    echo "<tr><td class='col-5'>Total Amount</td><td class='col-6'>{$totalamount}</td></tr>";
+                    echo "</table>";
+                ?>
+            <?php
         }
-
         // show error
         catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
         ?>
-
-
-        <!--we have our html table here where the record will be displayed-->
-        <table class='table table-hover table-responsive table-bordered'>
-            <tr>
-                <td>Order ID</td>
-                <td><?php echo htmlspecialchars($order_id, ENT_QUOTES);  ?> </td>
-            </tr>
-            <tr>
-                <td>Name</td>
-                <td><?php echo htmlspecialchars($customer, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Product ID</td>
-                
-                <td><?php echo htmlspecialchars($pid, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Products</td>
-                <td><?php echo htmlspecialchars($pname, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-                <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Order Date</td>
-                <td><?php echo htmlspecialchars($order_date, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td><?php echo htmlspecialchars($pprice, ENT_QUOTES);  ?></td>
-            </tr>
-            <!--
-            <tr>
-                <td>Total Price</td>
-                <td><?php //echo htmlspecialchars($total_price, ENT_QUOTES);  ?></td>
-            </tr>
-            -->
-            <tr>
-                <td></td>
-                <td>
-                    <a href='order_list.php' class='btn btn-danger'>Back to read Order List</a>
-                </td>
-            </tr>
+        <tr>
+            <td colspan = "6">
+                <a href='order_list.php' class='btn btn-danger'>Back to read Order List</a>
+            </td>
+        </tr>
         </table>
-
-
     </div> <!-- end .container -->
-
 </body>
-
 </html>
