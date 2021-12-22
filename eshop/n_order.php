@@ -34,6 +34,7 @@
                     $quantity = $_POST['quantity'];
                     $flag = 1;
                     $getProduct = 0;
+                    $total = 0;
 
                     if ($customer == "") {
                         $flag = 0;
@@ -49,25 +50,30 @@
                             $getQuantity = $quantity[$y];
 
                             //select quantity and product price
-                            $query = "SELECT price
-                            FROM products";
+                            $query = "SELECT price 
+                            FROM products
+                            WHERE id = :id";
                             $stmt = $con->prepare($query);
+                            
+                            $stmt->bindParam(':id', $getProductid);
                             $stmt->execute();
-                            $stmt->bindParam(':price', $price);
-                            if ($quantity[$y] != "") {
-                                $total = ($quantity[$y]) * $price;
-                            }
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        
+                            $total = (($quantity[$y]) * $row['price']) +$total;
+                            echo $total;
+                            
                         }
                     }
 
                     if ($flag == 1) {
 
                         // insert query
-                        $query = "INSERT INTO orders SET customer=:customer, quantity=:quantity,product_id=:product_id";
+                        $query = "INSERT INTO orders SET customer=:customer, quantity=:quantity,product_id=:product_id, total_amount=:total_amount";
                         $stmt = $con->prepare($query);
                         $stmt->bindParam(':customer', $customer);
                         $stmt->bindParam(':quantity', $getQuantity);
                         $stmt->bindParam(':product_id', $getProductid);
+                        $stmt->bindParam(':total_amount', $total);
                         $stmt->execute();
                         $id = $con->lastInsertId();
                         echo "<div class='alert alert-success'>Record was saved. The Order ID is $id.</div>";

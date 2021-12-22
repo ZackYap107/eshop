@@ -123,11 +123,9 @@ $myUsername = $_SESSION["Username"];
             }
 
             if (isset($order_date)) {
-                $query = "SELECT order_id, orderdetails.name as oname, product_id, quantity, max(order_date) as MaxDate, products.price as pprice, products.id as pid, products.name as pname
-                FROM orderdetails
-                INNER JOIN products 
-                ON orderdetails.product_id = products.id
-                WHERE orderdetails.order_date = ?";
+                $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
+                FROM orders
+                WHERE orders.order_date = ?";
                 
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(1, $order_date);
@@ -135,15 +133,10 @@ $myUsername = $_SESSION["Username"];
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
-                    $pprice = $row['pprice'];
                     $quantity = $row['quantity'];
-                    $total = 0;
-                    $totalamount = 0;
-                    $total = ($pprice * $quantity);
+                    $total_amount = $row['total_amount'];
                 }
             }
-            $totalamount = $totalamount + $total;
-
 
         ?>
             <div class="container px-4">
@@ -158,7 +151,7 @@ $myUsername = $_SESSION["Username"];
                                 <td class='col-6'><?php echo $oname ?>
                             </div>
                             <div class='col-5'>Total Amount : </td>
-                                <td class='col-6'><?php echo $totalamount ?>
+                                <td class='col-6'><?php echo $total_amount ?>
                             </div>
                             <div class='col-5'>Order Date : </td>
                                 <td class='col-6'><?php echo $order_date ?>
