@@ -101,7 +101,7 @@
                         if (md5($Password) == $row['Password']) {
                             if ($row['AccountStatus'] == 1) {
                                 $_SESSION["Username"] = $Username;
-                                header("Location: readCustomers.php");
+                                header("Location: home.php");
                                 exit();
                             } else {
                                 echo "<div class='alert alert-danger row justify-content-center'>Not active Account</div>";
