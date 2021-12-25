@@ -60,8 +60,6 @@
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
                         
                             $total = (($quantity[$y]) * $row['price']) +$total;
-                            echo $total;
-                            
                         }
                     }
 
