@@ -17,7 +17,7 @@ include 'config/nav.php';
 
 <body>
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
     <h1>Create Category</h1>
         <?php
         if ($_POST) {

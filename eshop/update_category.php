@@ -31,7 +31,7 @@ include 'session.php';
 
 <body>
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="page-header">
             <h1>Update Category</h1>
         </div>

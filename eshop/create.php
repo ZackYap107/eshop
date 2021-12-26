@@ -18,7 +18,7 @@ include 'config/database.php';
 
 <body>
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
     <h1>Create Product</h1>
         <?php
 

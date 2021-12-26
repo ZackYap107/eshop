@@ -18,7 +18,7 @@ include 'config/nav.php';
 <body>
 
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
     <h1>Order List</h1>
         <td>
             <?php

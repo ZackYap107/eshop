@@ -17,7 +17,7 @@ include 'config/nav.php';
 
 <body>
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
     <h1>Customer List</h1>
         <?php
 

@@ -15,7 +15,7 @@ include 'session.php';
 
     <!-- container -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="#">Online Eshop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@ include 'session.php';
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="page-header">
             <h1>Read Product</h1>
         </div>

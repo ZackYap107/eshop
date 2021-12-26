@@ -20,7 +20,7 @@ include 'config/nav.php';
 <body>
 
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
     <h1>Product List</h1>
         <div class="dropdown row">
             <tr>

@@ -13,7 +13,7 @@
         <?php include 'config/nav.php'; ?>
     </div>
     <!-- container -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="page-header">
             <h1>Create Order</h1>
         </div>
