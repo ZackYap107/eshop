@@ -89,9 +89,10 @@
         $Password = ($_POST['Password']);
         //$Password = md5($_POST['Password']);
 
-        if ($Username == "") {
+        /*if ($Username == "") {
             echo "<div class='alert alert-danger row justify-content-center'>Please Fill in all Information</div>";
         } else {
+            */
 
             include 'config/database.php';
             try {
@@ -105,6 +106,7 @@
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     //var_dump($row);
+                    /*
                     if (is_array($row)) {
                         if (md5($Password) == $row['Password']) {
                             if ($row['AccountStatus'] == 1) {
@@ -120,11 +122,12 @@
                     } else {
                         echo "<div class='alert alert-danger row justify-content-center'>User not found</div>";
                     }
+                    */
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-        }
+        //}
     }
     ?>
 
@@ -141,9 +144,31 @@
                 <input type="password" class="form-control" name="Password" placeholder="Password">
                 <label for="floatingPassword">Password</label>
             </div>
-
+            
             <input type="submit" class="w-100 btn btn-lg btn-primary" value="Login">
-            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+            <?php
+            if ($_POST) {
+                if ($Username == "") {
+                    echo "<div class='alert alert-danger row justify-content-center mt-2'>Please Fill in all Information</div>";
+                }
+                if (is_array($row)) {
+                    if (md5($Password) == $row['Password']) {
+                        if ($row['AccountStatus'] == 1) {
+                            $_SESSION["Username"] = $Username;
+                            header("Location: home.php");
+                            exit();
+                        } else {
+                            echo "<div class='alert alert-danger row justify-content-center mt-2'>Not active Account</div>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger row justify-content-center mt-2'>wrong password</div>";
+                    }
+                } else {
+                    echo "<div class='alert alert-danger row justify-content-center mt-2'>User not found</div>";
+                }
+            }
+            ?>
+            <p class="mt-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
 
