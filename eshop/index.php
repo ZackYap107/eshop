@@ -134,11 +134,6 @@
                 <label for="floatingPassword">Password</label>
             </div>
 
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div>
             <input type="submit" class="w-100 btn btn-lg btn-primary" value="Login">
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
