@@ -22,7 +22,7 @@ include 'config/nav.php';
     <h1>Order List</h1>
         <td>
             <?php
-            echo "<a href='order.php' class='btn btn-primary m-b-1em col-1 my-2'>Order Now</a>";
+            echo "<a href='order.php' class='btn btn-primary m-b-1em col-2 my-2'>Order Now</a>";
             ?>
         </td>
 
