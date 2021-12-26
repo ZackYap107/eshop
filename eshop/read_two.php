@@ -99,7 +99,7 @@ include 'session.php';
             <tr>
                 <td></td>
                 <td>
-                    <a href='readCustomers.php' class='btn btn-danger'>Back to read</a>
+                    <a href='readCustomers.php' class='btn btn-danger'>Back to read Customers</a>
                 </td>
             </tr>
         </table>

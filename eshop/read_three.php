@@ -77,7 +77,7 @@ include 'session.php';
             <tr>
                 <td></td>
                 <td>
-                    <a href='readProducts.php' class='btn btn-danger'>Back to read Categories</a>
+                    <a href='categories_list.php' class='btn btn-danger'>Back to read Categories</a>
                 </td>
             </tr>
         </table>
