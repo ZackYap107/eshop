@@ -40,7 +40,7 @@ include 'config/nav.php';
         }
 
         $query = "SELECT orders.order_id, customer, order_date
-        FROM orders ORDER BY orders.order_id ASC";
+        FROM orders ORDER BY orders.order_id DESC";
 
         $stmt = $con->prepare($query);
         $stmt->execute();
