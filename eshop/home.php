@@ -153,7 +153,7 @@ $myUsername = $_SESSION["Username"];
                                 <td class='col-6'><?php echo $oname ?>
                             </div>
                             <div class='col-md-auto'>Total Amount : </td>
-                                <td class='col-6'><?php echo $total_amount ?>
+                                <td class='col-6'><?php echo "RM".$total_amount ?>
                             </div>
                             <div class='col-md-auto'>Order Date : </td>
                                 <td class='col-6'><?php echo $order_date ?>

@@ -87,18 +87,28 @@ include 'config/nav.php';
     }
     ?>
 
-
     </div> <!-- end .container -->
 
     <script type='text/javascript'>
         // confirm record deletion
         function delete_user(id) {
+        <?php
+        $query = "SELECT products.category as pcid, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id";
+        $stmt = $con->prepare($query);
+        $stmt->execute();
 
-            var answer = confirm('Are you sure to delete this category?');
-            if (answer) {
-                // if user clicked ok,
-                // pass the id to delete.php and execute the delete query
-                window.location = 'delete_category.php?id=' + id;
+        //$query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ?";
+        
+        ?>
+            if ($pcid != $id){
+                var answer = confirm('Are you sure to delete this category?');
+                if (answer) {
+                    // if user clicked ok,
+                    // pass the id to delete.php and execute the delete query
+                    window.location = 'delete_category.php?id=' + id;
+                }
+            }else{
+                <?php echo "<div class='alert alert-danger'>No records found.</div>"; ?>
             }
         }
     </script>

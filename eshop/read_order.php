@@ -91,8 +91,8 @@ include 'session.php';
                 echo "<th>Product ID</th>";
                 echo "<th>Product Name</th>";
                 echo "<th>Quantity</th>";
-                echo "<th>Price</th>";
-                echo "<th>Total</th>";
+                echo "<th>Price (RM)</th>";
+                echo "<th>Total (RM)</th>";
                 echo "</tr>";
 
                 $stmt->execute();
@@ -105,14 +105,14 @@ include 'session.php';
                 echo "<td>{$pid}</td>";
                 echo "<td>{$pname}</td>";
                 echo "<td>{$quantity}</td>";
-                echo "<td>{$pprice}</td>";
+                echo "<td>RM {$pprice}</td>";
                 $total = ($pprice * $quantity);
-                echo "<td>{$total}</td>";
+                echo "<td>RM {$total}</td>";
                 $totalamount = $totalamount + $total;
                 echo "</tr>";
                 }
                 echo "<table class='table table-hover table-responsive table-bordered col-5'>";
-                echo "<tr><td class='col-5'>Total Amount</td><td class='col-6'>{$totalamount}</td></tr>";
+                echo "<tr><td class='col-5'>Total Amount (RM)</td><td class='col-6'>RM {$totalamount}</td></tr>";
                 echo "</table>";
             }
             // if no records found

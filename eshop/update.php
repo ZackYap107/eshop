@@ -118,7 +118,6 @@ include 'session.php';
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
-                $tday = date("d/m/Y");
                 $flag = 1;
 
                 if($name == "" ){
@@ -141,23 +140,6 @@ include 'session.php';
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your manufacture date</div>";
                 }
-                if($expired_date == "" ){
-                    $flag = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your expired date</div>";
-                }
-                if ($expired_date != ""){
-                    $exdate = $expired_date - $tday;
-                    if ($exdate < $tday){
-                        $flag = 0;
-                        echo "<div class='alert alert-danger'>The product are expired</div>";
-                    }
-                }
-                
-                echo $exdate;
-                echo "<br>";
-                echo $tday;
-                echo "<br>";
-                echo $expired_date;
 
                 if ($flag == 1){
                     $query = "UPDATE products
@@ -201,7 +183,24 @@ include 'session.php';
                 </tr>
                 <tr>
                     <td>category</td>
-                    <td><input type='text' name='category' value="<?php echo htmlspecialchars($cname, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><!--<input type='text' name='category' value="<?php echo htmlspecialchars($cname, ENT_QUOTES);  ?>" class='form-control' />-->
+                        <select class="w-25 col-2 p-2" aria-label="Default select example" name="category">
+                            <option value="<?php $cname ?>" name="a" selected>All Category</option>
+                            <!--<option value="1" name="g">General</option>
+                                    <option value="2" name="s">Sport</option>
+                                    <option value="3" name="e">Engine</option> -->
+                            <?php
+                            $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
+                            $stmt = $con->prepare($query);
+                            $stmt->execute();
+                            $num = $stmt->rowCount();
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row);
+                                echo "<option value='$cid' name='$'>$cname</option>";
+                            }
+                            ?>
+                        </select>
+                </td>
                 </tr>
                 <tr>
                     <td>Description</td>

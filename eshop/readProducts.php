@@ -27,7 +27,7 @@ include 'config/nav.php';
             <tr>
                 <td>
                     <?php
-                    echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 ms-3 my-2'>Create New Product</a>";
+                    echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 col-ms-5 ms-3 my-2'>Create New Product</a>";
                     ?>
                 </td>
                 <td></td>
@@ -88,7 +88,7 @@ include 'config/nav.php';
             $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
         }
 
-
+        $none = "No Promotion";
         $stmt = $con->prepare($query);
         $stmt->execute();
         //$stmt->bindParam(':categories', $categories);
@@ -106,7 +106,7 @@ include 'config/nav.php';
             echo "<th>Name</th>";
             echo "<th>category</th>";
             echo "<th>Description</th>";
-            echo "<th>Price</th>";
+            echo "<th>Price (RM)</th>";
             echo "<th>Promotion Price</th>";
             echo "<th>Manufacture Date</th>";
             echo "<th>Expired Date</th>";
@@ -124,8 +124,14 @@ include 'config/nav.php';
                 echo "<td>{$name}</td>";
                 echo "<td>{$cname}</td>";
                 echo "<td>{$description}</td>";
-                echo "<td>{$price}</td>";
-                echo "<td>{$promotion_price}</td>";
+                echo "<td>RM {$price}</td>";
+
+                if ($promotion_price == 0){
+                    echo "<td>{$none}</td>";
+                }else {
+                    echo "<td>RM {$promotion_price}</td>";
+                }
+
                 echo "<td>{$manufacture_date}</td>";
                 echo "<td>{$expired_date}</td>";
                 echo "<td>";
