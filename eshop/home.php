@@ -144,7 +144,7 @@ $myUsername = $_SESSION["Username"];
             <div class="container-fluid px-4">
                 <div class="row gx-5">
                     <div class="col">
-                        <div class="p-3 border bg-light text-left">
+                        <div class="p-3 border bg-light text-left mb-3">
                             <h3>Lastest Order</h3>
                             <div class='col-md-auto'>Order ID : </td>
                                 <td class='col-6'><?php echo "OID " . $order_id ?>
