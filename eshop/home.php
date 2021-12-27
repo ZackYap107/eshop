@@ -108,9 +108,7 @@ $myUsername = $_SESSION["Username"];
         try {
 
             if (isset($myUsername)) {
-                $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate
-                                FROM orderdetails
-                                WHERE orderdetails.name = ?";
+                $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(1, $myUsername);
                 $stmt->execute();
