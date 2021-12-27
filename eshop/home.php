@@ -45,11 +45,11 @@ $myUsername = $_SESSION["Username"];
             ?>
         </div>
 
-        <div class="container px-4 my-2 mb-3">
+        <div class="container-fluid px-4 my-2 mb-3">
             <div class="row gx-1">
                 <div class="col text-center border bg-light">
                     <p class="fw-bold text-uppercase pt-3">Total Order</p>
-                    <div class="container px-4">
+                    <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-sm text-center border bg-light py-3">
                                 <p class="fw-bold text-uppercase">Total Order</p>
