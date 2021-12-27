@@ -33,7 +33,7 @@ $myUsername = $_SESSION["Username"];
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($Gender = 1) {
+            if ($Gender == 1) {
                 echo " User : Mr " . $myUsername;
             } else {
                 echo " User : Ms " . $myUsername;
