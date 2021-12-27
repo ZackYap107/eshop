@@ -6,9 +6,11 @@ include 'session.php';
 ?>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
 
 </head>
 
@@ -27,11 +29,12 @@ $myUsername = $_SESSION["Username"];
             echo date("M j, Y");
             echo "<br>";
 
-            $query = "SELECT Username, LastName, Gender FROM customers where username=?";
+            $query = "SELECT Username, LastName, Gender FROM customers where Username=?";
             $stmt = $con->prepare($query);
             $stmt->bindParam(1, $Username);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            //$Gender = $row['Gender'];
 
             if ($Gender == 1) {
                 echo " User : Mr " . $myUsername;
@@ -42,13 +45,13 @@ $myUsername = $_SESSION["Username"];
             ?>
         </div>
 
-        <div class="container-fluid px-4 my-2 mb-3">
+        <div class="container px-4 my-2 mb-3">
             <div class="row gx-1">
                 <div class="col text-center border bg-light">
                     <p class="fw-bold text-uppercase pt-3">Total Order</p>
-                    <div class="container-fluid px-4">
-                        <div class="row gx-1">
-                            <div class="col text-center border bg-light py-3">
+                    <div class="container px-4">
+                        <div class="row">
+                            <div class="col-sm text-center border bg-light py-3">
                                 <p class="fw-bold text-uppercase">Total Order</p>
                                 <?php
                                 $aquery = "SELECT * FROM orders ORDER BY order_id ASC";
@@ -63,7 +66,7 @@ $myUsername = $_SESSION["Username"];
                                 }
                                 ?>
                             </div>
-                            <div class="col text-center border bg-light py-3">
+                            <div class="col-sm text-center border bg-light py-3">
                                 <p class="fw-bold text-uppercase">Total Product</p>
                                 <?php
 
@@ -81,7 +84,7 @@ $myUsername = $_SESSION["Username"];
 
                                 ?>
                             </div>
-                            <div class="col text-center border bg-light py-3">
+                            <div class="col-sm text-center border bg-light py-3">
                                 <p class="fw-bold text-uppercase">Total Customer</p>
                                 <?php
                                 // select all data
@@ -143,16 +146,16 @@ $myUsername = $_SESSION["Username"];
                     <div class="col">
                         <div class="p-3 border bg-light text-left">
                             <h3>Lastest Order</h3>
-                            <div class='col-5'>Order ID : </td>
+                            <div class='col-md-auto'>Order ID : </td>
                                 <td class='col-6'><?php echo "OID " . $order_id ?>
                             </div>
-                            <div class='col-5'>Customer Name : </td>
+                            <div class='col-md-auto'>Customer Name : </td>
                                 <td class='col-6'><?php echo $oname ?>
                             </div>
-                            <div class='col-5'>Total Amount : </td>
+                            <div class='col-md-auto'>Total Amount : </td>
                                 <td class='col-6'><?php echo $total_amount ?>
                             </div>
-                            <div class='col-5'>Order Date : </td>
+                            <div class='col-md-auto'>Order Date : </td>
                                 <td class='col-6'><?php echo $order_date ?>
                             </div>
                         </div>

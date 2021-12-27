@@ -133,7 +133,7 @@
 
     <main class="form-signin">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <img class="mb-4" src="store_logo.jpg" alt="logo" width="300" height="280">
+            <img class="mb-4" src="image/store_logo.jpg" alt="logo" width="300" height="280">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
             <div class="form-floating">
