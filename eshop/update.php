@@ -29,7 +29,9 @@ include 'session.php';
         }
     </style>
 </head>
-
+<?php
+include 'config/nav.php';
+?>
 <body>
     <!-- container -->
     <div class="container-fluid">
