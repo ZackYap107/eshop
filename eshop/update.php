@@ -32,6 +32,7 @@ include 'session.php';
 <?php
 include 'config/nav.php';
 ?>
+
 <body>
     <!-- container -->
     <div class="container-fluid">
@@ -66,7 +67,7 @@ include 'config/nav.php';
 
             // values to fill up our form
             $name = $row['name'];
-            $cname = $row['category'];
+            $ccid = $row['category'];
             $description = $row['description'];
             $price = $row['price'];
             $promotion_price = $row['promotion_price'];
@@ -122,28 +123,28 @@ include 'config/nav.php';
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 $flag = 1;
 
-                if($name == "" ){
+                if ($name == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product name</div>";
                 }
-                if($cname == "" ){
+                if ($cname == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product category</div>";
                 }
-                if($description == "" ){
+                if ($description == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product description</div>";
                 }
-                if($price == "" ){
+                if ($price == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product price</div>";
                 }
-                if($manufacture_date == "" ){
+                if ($manufacture_date == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your manufacture date</div>";
                 }
 
-                if ($flag == 1){
+                if ($flag == 1) {
                     $query = "UPDATE products
                     SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE id = :id";
                     // prepare query for excecution
@@ -185,11 +186,9 @@ include 'config/nav.php';
                 </tr>
                 <tr>
                     <td>category</td>
-                    <?php echo $cname; ?>
-                    <td><!--<input type='text' name='category' value="<?php //echo "checked" ?>" class='form-control' />-->
-                        <select class="w-25 col-2 p-2" aria-label="Default select example" name="category" >
-                            <!--<option value="<?php //$cname ?>" name="a" selected>All Category</option>-->
-
+                    
+                    <td>
+                        <select class="w-25 col-2 p-2" aria-label="Default select example" name="category">
                             <?php
                             $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
                             $stmt = $con->prepare($query);
@@ -198,14 +197,14 @@ include 'config/nav.php';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
                                 echo "<option value='$cid' name='$'";
-                                if ($cname == $cid){
+                                if ($ccid == $cid) {
                                     echo "selected";
                                 }
                                 echo ">$cname</option>";
                             }
                             ?>
                         </select>
-                </td>
+                    </td>
                 </tr>
                 <tr>
                     <td>Description</td>

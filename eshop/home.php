@@ -156,19 +156,14 @@ $myUsername = $_SESSION["Username"];
 
     try {
 
-        if (isset($myUsername)) {
-            $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $myUsername);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            //var_dump($row);
-
-            // values to fill up our form
-            $order_id = $row['order_id'];
-            $oname = $row['oname'];
-            $order_date = $row['MaxDate'];
-        }
+        $query = "SELECT * FROM orders WHERE orders.customer = ? ORDER BY order_date DESC LIMIT 1 ";
+        $stmt = $con->prepare($query);
+        $stmt->bindParam(1, $myUsername);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $oname = $row['customer'];
+        $order_date = $row['order_date'];
+        $order_id = $row['order_id'];
 
         if (isset($order_date)) {
             $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
