@@ -20,16 +20,12 @@ include 'config/nav.php';
 
     <!-- container -->
     <div class="container-fluid">
-    <h1>Order List</h1>
-        <td>
-            <?php
-            echo "<a href='order.php' class='btn btn-primary m-b-1em col-2 my-2'>Order Now</a>";
-            ?>
-        </td>
+        <h1>Order List</h1>
 
         <?php
         // include database connection
         include 'config/database.php';
+        echo "<a href='order.php' class='btn btn-primary m-b-1em my-2'>Order Now</a>";
 
         // delete message prompt will be here
         $action = isset($_GET['action']) ? $_GET['action'] : "";

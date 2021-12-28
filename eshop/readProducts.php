@@ -23,13 +23,11 @@ include 'config/nav.php';
     <!-- container -->
     <div class="container-fluid">
     <h1>Product List</h1>
+    <?php
+    echo "<a href='create.php' class='btn btn-primary m-b-1em my-2'>Create New Product</a>";
+    ?>
         <div class="dropdown row">
             <tr>
-                <td>
-                    <?php
-                    echo "<a href='create.php' class='btn btn-primary m-b-1em col-2 col-ms-5 ms-3 my-2'>Create New Product</a>";
-                    ?>
-                </td>
                 <td></td>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <td>
