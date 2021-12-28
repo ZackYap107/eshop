@@ -29,19 +29,19 @@ $myUsername = $_SESSION["Username"];
             echo date("M j, Y");
             echo "<br>";
 
-            $query = "SELECT Username, LastName, Gender FROM customers where Username=?";
+            $query = "SELECT Gender FROM customers where Username = ?";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $Username);
+            $stmt->bindParam(1, $myUsername);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            //$Gender = $row['Gender'];
+            $Gender = $row['Gender'];
 
             if ($Gender == 1) {
                 echo " User : Mr " . $myUsername;
             } else {
                 echo " User : Ms " . $myUsername;
             };
-
+            
             ?>
         </div>
 
@@ -115,10 +115,10 @@ $myUsername = $_SESSION["Username"];
         <div class="container-fluid px-4 my-2 mb-3">
             <div class="col border bg-light pb-3">
                 <h3 class="pt-3 px-3 text-center">Top 3 Selling Products</h3>
-
                 <?php
                 if ($hsnum > 0) {
-                    echo "<div class='row col'>";
+                    
+                    /*echo "<div class='row col-11'>";
                     echo "<div class='col text-center bg-light'>";
                     echo "<td>1st</td>";
                     echo "</br>";
@@ -127,16 +127,25 @@ $myUsername = $_SESSION["Username"];
                     echo "<td>3rd</td>";
                     echo "</br>";
                     echo "</div>";
-                    echo "<div class='col text-center bg-light'>";
-
+                    echo "<div class='col text-center bg-light'>";*/
+                    $numx = 0;
+                    echo "<div class='table-responsive'>";
+                    echo "<table class='table text-center'>";
                     while ($row = $hsstmt->fetch(PDO::FETCH_ASSOC)) {
                         extract($row);
-                        echo "<div class='row row-cols-2'>";
-                        echo $pname;
-                        echo "<div class='$totalquantity'>";
-                        echo "</div>";
+                        $numx = $numx +1;
+                        echo "<tr>";
+                        echo "<td class='col-md-3'>No.$numx</td>";
+                        //echo "<div class='row row-cols-2'>";
+                        echo "<td class='col-md-3'>$pname</td>";
+                        //echo "</div>";
+                        //echo "<div class='row row-cols-2'>";
+                        echo "<td class='col-md-3'>$totalquantity</td>";
+                        //echo "</div>";
+                        echo "</tr>";
                     }
-                    echo "</div>";
+                    
+                    echo "</table></div>";
                 }
                 ?>
             </div>
