@@ -23,4 +23,5 @@ try {
 catch(PDOException $exception){
     die('ERROR: ' . $exception->getMessage());
 }
+
 ?>
