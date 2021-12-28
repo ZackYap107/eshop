@@ -65,6 +65,9 @@ include 'config/nav.php';
                 if ($Username == "" || $Password == "" || $cPassword == "" || $FirstName == "" || $LastName == "" || $email == "" || $Gender == "" || $dob == "") {
                     $flag = 0;
                     echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
+                } else if ($Username == " ") {
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Username not allow spaces bar</div>";
                 } else if ($Password != $cPassword) {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Password does not match</div>";
