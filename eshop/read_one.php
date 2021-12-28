@@ -30,7 +30,7 @@ include 'config/nav.php';
 
         //include database connection
         include 'config/database.php';
-
+        $none = "No Promotion";
         // read current record's data
         try {
             // prepare select query
@@ -85,11 +85,16 @@ include 'config/nav.php';
             </tr>
             <tr>
                 <td>Price</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars("RM ".$price, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>promotion_price</td>
-                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+                <td><?php //echo htmlspecialchars($promotion_price, ENT_QUOTES);
+                if ($promotion_price == 0){
+                    echo $none;
+                }else {
+                    echo "RM {$promotion_price}";
+                }  ?></td>
             </tr>
             <tr>
                 <td>manufacture_date</td>
