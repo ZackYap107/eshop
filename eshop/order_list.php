@@ -25,7 +25,7 @@ include 'config/nav.php';
         <?php
         // include database connection
         include 'config/database.php';
-        echo "<a href='order.php' class='btn btn-primary m-b-1em my-2'>Order Now</a>";
+        echo "<a href='n_order.php' class='btn btn-primary m-b-1em my-2'>Order Now</a>";
 
         // delete message prompt will be here
         $action = isset($_GET['action']) ? $_GET['action'] : "";
