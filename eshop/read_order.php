@@ -59,9 +59,9 @@ include 'config/nav.php';
             
         ?>
             <table class='table table-hover table-responsive table-bordered'>
-                <tr><td class='col-5'>Order Date</td><td class='col-6'><?php echo $order_date ?></td></tr>
-                <tr><td class='col-5'>Customer Name</td><td class='col-6'><?php echo $customer ?></td></tr>
-                <tr><td class='col-5'>Order ID</td><td class='col-6'><?php echo "OID ". $order_id ?></td></tr>
+                <tr><th class='col-5'>Order Date</td><td class='col-6'><?php echo $order_date ?></th></tr>
+                <tr><th class='col-5'>Customer Name</td><td class='col-6'><?php echo $customer ?></th></tr>
+                <tr><th class='col-5'>Order ID</td><td class='col-6'><?php echo "OID ". $order_id ?></th></tr>
             </table>
             <?php
 
@@ -103,9 +103,10 @@ include 'config/nav.php';
                 echo "<td>RM {$total}</td>";
                 $totalamount = $totalamount + $total;
                 echo "</tr>";
+                
                 }
                 echo "<table class='table table-hover table-responsive table-bordered col-5'>";
-                echo "<tr><td class='col-5'>Total Amount (RM)</td><td class='col-6'>RM {$totalamount}</td></tr>";
+                echo "<tr><th class='col-5'>Total Amount (RM)</th><td class='col-6'>RM {$totalamount}</td></tr>";
                 echo "</table>";
             }
             // if no records found

@@ -10,7 +10,7 @@ include 'session.php';
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
+
 
 </head>
 
@@ -48,7 +48,7 @@ $myUsername = $_SESSION["Username"];
         <div class="container-fluid px-4 my-2 mb-3">
             <div class="row gx-1">
                 <div class="col text-center border bg-light">
-                    <p class="fw-bold text-uppercase pt-3">Total Order</p>
+                    <h3 class="fw-bold text-uppercase pt-3">Total Order</h3>
                     <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-sm text-center border bg-light py-3">
@@ -107,69 +107,115 @@ $myUsername = $_SESSION["Username"];
         </div>
 
         <?php
+        $hsquery = "SELECT product_id, SUM(quantity) AS totalquantity, products.name as pname FROM orderdetails INNER JOIN products ON products.id = orderdetails.product_id GROUP BY product_id ORDER BY SUM(quantity) DESC LIMIT 3";
+        $hsstmt = $con->prepare($hsquery);
+        $hsstmt->execute();
+        $hsnum = $hsstmt->rowCount();
+        ?>
+        <div class="container-fluid px-4 my-2 mb-3">
+            <div class="col border bg-light pb-3">
+                <h3 class="pt-3 px-3 text-center">Top 3 Selling Products</h3>
 
-        try {
+                <?php
+                if ($hsnum > 0) {
+                    echo "<div class='row gx-1'>";
+                    echo "<div class='col text-center bg-light'>";
+                    echo "<td>1st</td>";
+                    echo "</br>";
+                    echo "<td>2nd</td>";
+                    echo "</br>";
+                    echo "<td>3rd</td>";
+                    echo "</br>";
+                    echo "</div>";
+                    echo "<div class='col text-center bg-light'>";
 
-            if (isset($myUsername)) {
-                $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
-                $stmt = $con->prepare($query);
-                $stmt->bindParam(1, $myUsername);
-                $stmt->execute();
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                //var_dump($row);
+                    while ($row = $hsstmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row);
+                        echo "<div class='row row-cols-2'>";
+                        echo "<div class='row'>";
+                        echo "<div class='col'>";
+                        echo "<div>$pname</div>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "<div class='row'>";
+                        echo "<div class='col'>";
+                        echo "<div>$totalquantity</div>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                    echo "</div>";
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+    </div>
 
-                // values to fill up our form
-                $order_id = $row['order_id'];
-                $oname = $row['oname'];
-                $order_date = $row['MaxDate'];
-            }
+    <?php
 
-            if (isset($order_date)) {
-                $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
+    try {
+
+        if (isset($myUsername)) {
+            $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $myUsername);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            //var_dump($row);
+
+            // values to fill up our form
+            $order_id = $row['order_id'];
+            $oname = $row['oname'];
+            $order_date = $row['MaxDate'];
+        }
+
+        if (isset($order_date)) {
+            $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
                 FROM orders
                 WHERE orders.order_date = ?";
-                
-                $stmt = $con->prepare($query);
-                $stmt->bindParam(1, $order_date);
-                //var_dump($row);
-                $stmt->execute();
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    $quantity = $row['quantity'];
-                    $total_amount = $row['total_amount'];
-                }
-            }
 
-        ?>
-            <div class="container-fluid px-4">
-                <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3 border bg-light text-left mb-3">
-                            <h3>Lastest Order</h3>
-                            <div class='col-md-auto'>Order ID : </td>
-                                <td class='col-6'><?php echo "OID " . $order_id ?>
-                            </div>
-                            <div class='col-md-auto'>Customer Name : </td>
-                                <td class='col-6'><?php echo $oname ?>
-                            </div>
-                            <div class='col-md-auto'>Total Amount : </td>
-                                <td class='col-6'><?php echo "RM".$total_amount ?>
-                            </div>
-                            <div class='col-md-auto'>Order Date : </td>
-                                <td class='col-6'><?php echo $order_date ?>
-                            </div>
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $order_date);
+            //var_dump($row);
+            $stmt->execute();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                extract($row);
+                $quantity = $row['quantity'];
+                $total_amount = $row['total_amount'];
+            }
+        }
+
+    ?>
+        <div class="container-fluid px-4">
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="p-3 border bg-light text-left mb-3">
+                        <h3>Lastest Order</h3>
+                        <div class='col-md-auto'>Order ID : </td>
+                            <td class='col-6'><?php echo "OID " . $order_id ?>
+                        </div>
+                        <div class='col-md-auto'>Customer Name : </td>
+                            <td class='col-6'><?php echo $oname ?>
+                        </div>
+                        <div class='col-md-auto'>Total Amount : </td>
+                            <td class='col-6'><?php echo "RM" . $total_amount ?>
+                        </div>
+                        <div class='col-md-auto'>Order Date : </td>
+                            <td class='col-6'><?php echo $order_date ?>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-        <?php
-        }
-        // show error
-        catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-        }
-        ?>
+    <?php
+    }
+    // show error
+    catch (PDOException $exception) {
+        die('ERROR: ' . $exception->getMessage());
+    }
+    ?>
     </div> <!-- end .container -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
