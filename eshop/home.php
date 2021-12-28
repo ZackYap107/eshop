@@ -118,7 +118,7 @@ $myUsername = $_SESSION["Username"];
 
                 <?php
                 if ($hsnum > 0) {
-                    echo "<div class='row gx-1'>";
+                    echo "<div class='row col'>";
                     echo "<div class='col text-center bg-light'>";
                     echo "<td>1st</td>";
                     echo "</br>";
@@ -132,16 +132,8 @@ $myUsername = $_SESSION["Username"];
                     while ($row = $hsstmt->fetch(PDO::FETCH_ASSOC)) {
                         extract($row);
                         echo "<div class='row row-cols-2'>";
-                        echo "<div class='row'>";
-                        echo "<div class='col'>";
-                        echo "<div>$pname</div>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "<div class='row'>";
-                        echo "<div class='col'>";
-                        echo "<div>$totalquantity</div>";
-                        echo "</div>";
-                        echo "</div>";
+                        echo $pname;
+                        echo "<div class='$totalquantity'>";
                         echo "</div>";
                     }
                     echo "</div>";
@@ -150,7 +142,7 @@ $myUsername = $_SESSION["Username"];
             </div>
         </div>
     </div>
-    </div>
+    
 
     <?php
 
@@ -165,6 +157,23 @@ $myUsername = $_SESSION["Username"];
         $order_date = $row['order_date'];
         $order_id = $row['order_id'];
 
+
+
+        /*
+
+        if (isset($myUsername)) {
+            $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $myUsername);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            //var_dump($row);
+            // values to fill up our form
+            $order_id = $row['order_id'];
+            $oname = $row['oname'];
+            $order_date = $row['MaxDate'];
+        }
+*/
         if (isset($order_date)) {
             $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
                 FROM orders

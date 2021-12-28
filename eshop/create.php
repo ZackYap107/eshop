@@ -44,6 +44,16 @@ include 'config/database.php';
                     echo  "<div class='alert alert-danger'>Promotion price can't be more expensive than price</div>";
                 }
 
+                $query = "SELECT name FROM products where name = ?";
+                $ppstmt = $con->prepare($query);
+                $ppstmt->bindParam(1, $name);
+                $ppstmt->execute();
+                $row = $ppstmt->fetch(PDO::FETCH_ASSOC);
+                if (is_array($row)) {
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Product has used</div>";
+                }
+
                 if ($flag == 1) {
                     // insert query
                     $query = "INSERT INTO products SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
