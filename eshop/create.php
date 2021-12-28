@@ -51,7 +51,7 @@ include 'config/database.php';
                 $row = $ppstmt->fetch(PDO::FETCH_ASSOC);
                 if (is_array($row)) {
                     $flag = 0;
-                    echo "<div class='alert alert-danger'>Product has used</div>";
+                    echo "<div class='alert alert-danger'>Product name has used</div>";
                 }
 
                 if ($flag == 1) {
