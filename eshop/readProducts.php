@@ -31,7 +31,7 @@ include 'config/nav.php';
                 <td></td>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <td>
-                        <select class="w-25 col-2 p-2" aria-label="Default select example" name="categories">
+                        <select class="m-b-1em my-2 p-2 me-2" aria-label="Default select example" name="categories">
                             <option value="0" name="a" selected>All Category</option>
                             <!--<option value="1" name="g">General</option>
                                     <option value="2" name="s">Sport</option>
@@ -51,7 +51,7 @@ include 'config/nav.php';
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Submit' class='btn btn-secondary col-2 m-2' />
+                    <input type='submit' value='Submit' class='btn btn-secondary m-b-1em my-2' />
                 </td>
             </tr>
             </form>
