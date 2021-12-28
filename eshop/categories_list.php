@@ -31,6 +31,8 @@ include 'config/nav.php';
     // if it was redirected from delete.php
     if ($action == 'deleted') {
         echo "<div class='alert alert-success'>Record was deleted.</div>";
+    } else if ($action == 'notdeleted'){
+        echo "<div class='alert alert-danger'>Record cannot Delete.</div>";
     }
 
     // select all data
@@ -92,24 +94,15 @@ include 'config/nav.php';
     <script type='text/javascript'>
         // confirm record deletion
         function delete_user(id) {
-        <?php
-        $query = "SELECT products.category as pcid, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
-
-        //$query = "SELECT id, name, category, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ?";
         
-        ?>
-            if ($pcid != $id){
+            
                 var answer = confirm('Are you sure to delete this category?');
                 if (answer) {
                     // if user clicked ok,
                     // pass the id to delete.php and execute the delete query
                     window.location = 'delete_category.php?id=' + id;
                 }
-            }else{
-                <?php echo "<div class='alert alert-danger'>No records found.</div>"; ?>
-            }
+        
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
