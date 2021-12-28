@@ -153,7 +153,7 @@ include 'config/nav.php';
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='readCustomers.php' class='btn btn-danger'>Back to read</a>
+                        <a href='readCustomers.php' class='btn btn-danger'>Back to Read Customers</a>
                     </td>
                 </tr>
             </table>
