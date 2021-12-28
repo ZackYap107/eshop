@@ -22,8 +22,8 @@ $myUsername = $_SESSION["Username"];
 
 <body>
     <div class="container-fluid">
-        <h1>Welcome</h1>
-        <div class="col text-left py-2 ps-4 border bg-light">
+        <div class="ms-3"> <h1>Welcome</h1> </div>
+        <div class="col text-left py-2 ps-4 mx-4 border bg-light">
             <?php
             echo "Today Date: ";
             echo date("M j, Y");
@@ -46,10 +46,10 @@ $myUsername = $_SESSION["Username"];
         </div>
 
         <div class="container-fluid px-4 my-2 mb-3">
-            <div class="row gx-1">
-                <div class="col text-center border bg-light">
-                    <h3 class="fw-bold text-uppercase pt-3">Total Order</h3>
-                    <div class="container-fluid px-4">
+            <div class="row mx-1">
+                <div class="col text-center border bg-light pb-2">
+                    <h3 class="text-uppercase pt-3">Total</h3>
+                    <div class="container-fluid px-2">
                         <div class="row">
                             <div class="col-sm text-center border bg-light py-3">
                                 <p class="fw-bold text-uppercase">Total Order</p>
@@ -145,7 +145,7 @@ $myUsername = $_SESSION["Username"];
                         echo "</tr>";
                     }
                     
-                    echo "</table></div>";
+                    echo "</table>";  
                 }
                 ?>
             </div>
