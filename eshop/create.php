@@ -6,7 +6,7 @@ include 'session.php';
 ?>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PDO - Create a Record - PHP CRUD Tutorial</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -20,21 +20,16 @@ include 'config/database.php';
 <body>
     <!-- container -->
     <div class="container-fluid">
-    <h1>Create Product</h1>
+        <h1>Create Product</h1>
         <?php
-
 
         $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
         $stmt = $con->prepare($query);
-
+        $flag = 1;
 
         if ($_POST) {
-            
+
             try {
-                // insert query
-                $query = "INSERT INTO products SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
-                // prepare query for execution
-                $stmt = $con->prepare($query);
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $cid = htmlspecialchars(strip_tags($_POST['cid']));
@@ -43,24 +38,35 @@ include 'config/database.php';
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
-                // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':category', $cid);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':promotion_price', $promotion_price);
-                $stmt->bindParam(':manufacture_date', $manufacture_date);
-                $stmt->bindParam(':expired_date', $expired_date);
-                // specify when this record was inserted to the database
-                $created = date('Y-m-d H:i:s');
-                $stmt->bindParam(':created', $created);
+                
+                if ($promotion_price > $price) {
+                    $flag = 0;
+                    echo  "<div class='alert alert-danger'>Promotion price can't be more expensive than price</div>";
+                }
 
+                if ($flag == 1) {
+                    // insert query
+                    $query = "INSERT INTO products SET name=:name, category=:category, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date	, expired_date=:expired_date ,created=:created";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':category', $cid);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':price', $price);
+                    $stmt->bindParam(':promotion_price', $promotion_price);
+                    $stmt->bindParam(':manufacture_date', $manufacture_date);
+                    $stmt->bindParam(':expired_date', $expired_date);
+                    // specify when this record was inserted to the database
+                    $created = date('Y-m-d H:i:s');
+                    $stmt->bindParam(':created', $created);
 
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
                 }
             }
             // show error
@@ -75,7 +81,7 @@ include 'config/database.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' minlength="1" required/></td>
+                    <td><input type='text' name='name' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
                     <td>category</td>
@@ -99,11 +105,11 @@ include 'config/database.php';
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type='number' name='price' class='form-control' minlength="1" required/></td>
+                    <td><input type='number' name='price' class='form-control' minlength="1" required /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price</td>
-                    <td><input type='number' name='promotion_price' class='form-control'/></td>
+                    <td><input type='number' name='promotion_price' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date</td>
