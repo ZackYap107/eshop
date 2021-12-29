@@ -49,7 +49,7 @@ include 'config/nav.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT Username, Password, FirstName, LastName, email, Gender, dob FROM customers WHERE Username = ? LIMIT 0,1";
+            $query = "SELECT Username, Password, FirstName, LastName, email, Gender, dob, AccountStatus FROM customers WHERE Username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -69,6 +69,7 @@ include 'config/nav.php';
             $email = $row['email'];
             $Gender = $row['Gender'];
             $dob = $row['dob'];
+            $AccountStatus = $row['AccountStatus'];
 
             // retrieve our table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -84,6 +85,7 @@ include 'config/nav.php';
                 echo "<td>${$email}</td>";
                 echo "<td>${$Gender}</td>";
                 echo "<td>${$dob}</td>";
+                echo "<td>${$AccountStatus}</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='read_one.php?Username={$Username}' class='btn btn-info m-r-1em'>Read</a>";
@@ -118,6 +120,7 @@ include 'config/nav.php';
                 $email = htmlspecialchars(strip_tags($_POST['email']));
                 $Gender = htmlspecialchars(strip_tags($_POST['Gender']));
                 $dob = date(strip_tags($_POST['dob']));
+                $AccountStatus = htmlspecialchars(strip_tags($_POST['AccountStatus']));
                 $year = substr($dob, 0, 4);
                 $tyear = date("Y");
                 $age = $tyear - $year;
@@ -177,7 +180,7 @@ include 'config/nav.php';
 
                 if ($Password == "" && $nPassword == "" && $cPassword == "") {
                     if ($p == 1) {
-                        $query = "UPDATE customers SET FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob WHERE Username = :Username";
+                        $query = "UPDATE customers SET FirstName=:FirstName, LastName=:LastName, email=:email, Gender=:Gender, dob=:dob, AccountStatus=:AccountStatus WHERE Username = :Username";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
                         // bind the parameters
@@ -189,6 +192,7 @@ include 'config/nav.php';
                         $stmt->bindParam(':LastName', $LastName);
                         $stmt->bindParam(':Gender', $Gender);
                         $stmt->bindParam(':dob', $dob);
+                        $stmt->bindParam(':AccountStatus', $AccountStatus);
 
                         // Execute the query
                         if ($stmt->execute()) {
@@ -303,6 +307,13 @@ include 'config/nav.php';
                 <tr>
                     <td>Date of Birth</td>
                     <td><input type='date' name='dob' value="<?php echo htmlspecialchars($dob, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Account Status</td>
+                    <td><input type='radio' id='Active' name='AccountStatus' value='1' <?php if (isset($AccountStatus) && $AccountStatus == "1") echo "checked" ?> />
+                        <label for='Active'>Active</label>
+                        <input type='radio' id='Unactive' name='AccountStatus' value='0' <?php if (isset($AccountStatus) && $AccountStatus == "0") echo "checked" ?> />
+                        <label for='Unactive'>Unactive</label>
                 </tr>
                 <tr>
                     <td></td>
