@@ -22,13 +22,17 @@ $myUsername = $_SESSION["Username"];
 
 <body>
     <div class="container-fluid">
-        <div class="ms-3"> <h1>Welcome</h1> </div>
-        <div class="col text-left py-2 ps-4 mx-4 border bg-light">
+    <div class="ms-4"> <h1>Welcome</h1> </div>
+        <div class="col py-2 ps-3 mx-4 border bg-light ">
             <?php
             echo "Today Date: ";
             echo date("M j, Y");
             echo "<br>";
-
+            ?>
+            
+            
+            
+            <?php
             $query = "SELECT Gender FROM customers where Username = ?";
             $stmt = $con->prepare($query);
             $stmt->bindParam(1, $myUsername);
@@ -166,23 +170,6 @@ $myUsername = $_SESSION["Username"];
         $order_date = $row['order_date'];
         $order_id = $row['order_id'];
 
-
-
-        /*
-
-        if (isset($myUsername)) {
-            $query = "SELECT order_id, orderdetails.name as oname, max(order_date) as MaxDate FROM orderdetails WHERE orderdetails.name = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $myUsername);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            //var_dump($row);
-            // values to fill up our form
-            $order_id = $row['order_id'];
-            $oname = $row['oname'];
-            $order_date = $row['MaxDate'];
-        }
-*/
         if (isset($order_date)) {
             $query = "SELECT order_id, orders.customer as oname, quantity, max(order_date) as MaxDate, total_amount
                 FROM orders
