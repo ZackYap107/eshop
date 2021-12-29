@@ -155,7 +155,7 @@
                         <td>
                             <div>
                                 <!--<select class='form-select' name='quantity[]'> -->
-                                <input type='number' name='quantity[]' class='form-control' minlength="1" required />
+                                <input type='number' name='quantity[]' class='form-control'/>
                                <!--     <option value=''>Select Quantity</option>
                                     <option value='1'>1</option>
                                     <option value='2'>2</option>
