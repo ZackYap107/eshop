@@ -37,15 +37,20 @@
                     $getProduct = 0;
                     $total = 0;
 
-                    if ($customer == "") {
+                    if ($customer == "" && $product_id == "" && $quantity == ""){
+                        echo "<div class='alert alert-danger'>Please fill in all information</div>";
+                    } else if ($customer == "") {
                         $flag = 0;
-                        //echo "<div class='alert alert-danger'>Please choose a username</div>";
+                        echo "<div class='alert alert-danger'>Please select a username</div>";
+                    } else if (count($product_id) != count(array_unique($product_id))) {
+                        $flag = 0;
+                        echo "<div class='alert alert-danger'>Selected product cannot be repeated</div>";
                     }
 
                     for ($y = 0; $y < count($product_id); $y++) {
                         if ($product_id[$y] == "" || $quantity[$y] == "") {
                             $flag = 0;
-                            //echo "<div class='alert alert-danger'>Please choose a product and quantity</div>";
+                            echo "<div class='alert alert-danger'>Please select a product and quantity</div>";
                         } else {
                             $getProductid = $product_id[$y];
                             $getQuantity = $quantity[$y];
@@ -90,12 +95,6 @@
 
                             $stmt->execute();
                         }
-                    } else {
-                        echo "<div class='alert alert-danger'>Please fill in all information</div>";
-                    }
-                    if (count($product_id) != count(array_unique($product_id))) {
-                        $flag = 0;
-                        echo "<div class='alert alert-danger'>Selected product cannot be repeated</div>";
                     }
                 } // end of $_post
 
