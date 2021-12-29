@@ -82,6 +82,10 @@ include 'config/database.php';
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
+                        //echo "href='read_one.php?id={$id}'";
+                        //echo "<form action= htmlspecialchars($_SERVER[PHP_SELF]) method='POST'> ";
+                        //echo "href='read_one.php?id={$id}'";
+                        //echo "</form>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
@@ -140,7 +144,7 @@ include 'config/database.php';
                 <tr>
                     <td></td>
                     <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <input type='submit' value='Save' class='btn btn-primary' href='read_one.php?id= <?php $id ?>'/>
                         <a href='readProducts.php' class='btn btn-danger'>Back to read products</a>
                     </td>
                 </tr>
