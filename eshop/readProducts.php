@@ -80,10 +80,10 @@ include 'config/nav.php';
 
         if ($categories > 0) {
             // select selection category data
-            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products  INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id ASC ";
+            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products  INNER JOIN categories ON products.category = categories.id WHERE categories.id = $categories ORDER BY products.id DESC ";
         } else {
             // select all data
-            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id ASC";
+            $query = "SELECT products.id as id, products.name, category, description, price, promotion_price, manufacture_date, expired_date, categories.id as cid, categories.name as cname FROM products INNER JOIN categories ON products.category = categories.id ORDER BY products.id DESC";
         }
 
         $none = "No Promotion";

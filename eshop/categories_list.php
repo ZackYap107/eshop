@@ -36,7 +36,7 @@ include 'config/nav.php';
     }
 
     // select all data
-    $query = "SELECT id, name FROM categories ORDER BY id ASC";
+    $query = "SELECT id, name FROM categories ORDER BY id DESC";
     $stmt = $con->prepare($query);
     $stmt->execute();
 

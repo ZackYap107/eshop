@@ -11,7 +11,7 @@
     <meta name="generator" content="Hugo 0.88.1">
     <title>Login</title>
 
-    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
