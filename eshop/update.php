@@ -188,7 +188,7 @@ include 'config/nav.php';
                     <td>category</td>
                     
                     <td>
-                        <select class="w-25 col-2 p-2" aria-label="Default select example" name="category">
+                        <select class="p-2" aria-label="Default select example" name="category">
                             <?php
                             $query = "SELECT categories.id as cid, categories.name as cname FROM categories";
                             $stmt = $con->prepare($query);

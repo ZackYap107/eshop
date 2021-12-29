@@ -51,7 +51,7 @@ include 'config/nav.php';
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Submit' class='btn btn-secondary m-b-1em my-2' />
+                    <input type='submit' value='Filter' class='btn btn-secondary m-b-1em my-2' />
                 </td>
             </tr>
             </form>

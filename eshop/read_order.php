@@ -61,7 +61,7 @@ include 'config/nav.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr><th class='col-5'>Order Date</td><td class='col-6'><?php echo $order_date ?></th></tr>
                 <tr><th class='col-5'>Customer Name</td><td class='col-6'><?php echo $customer ?></th></tr>
-                <tr><th class='col-5'>Order ID</td><td class='col-6'><?php echo "OID ". $order_id ?></th></tr>
+                <tr><th class='col-5'>Order ID</td><td class='col-6'><?php echo $order_id ?></th></tr>
             </table>
             <?php
 

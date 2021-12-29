@@ -206,7 +206,7 @@ $myUsername = $_SESSION["Username"];
                     <div class="p-3 border bg-light text-left mb-3">
                         <h3>Lastest Order</h3>
                         <div class='col-md-auto'>Order ID : </td>
-                            <td class='col-6'><?php echo "OID " . $order_id ?>
+                            <td class='col-6'><?php echo $order_id ?>
                         </div>
                         <div class='col-md-auto'>Customer Name : </td>
                             <td class='col-6'><?php echo $oname ?>
