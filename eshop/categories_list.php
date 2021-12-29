@@ -32,7 +32,7 @@ include 'config/nav.php';
     if ($action == 'deleted') {
         echo "<div class='alert alert-success'>Record was deleted.</div>";
     } else if ($action == 'notdeleted'){
-        echo "<div class='alert alert-danger'>Record cannot Delete.</div>";
+        echo "<div class='alert alert-danger'>There are product in this category. Record can't be Deleted.</div>";
     }
 
     // select all data

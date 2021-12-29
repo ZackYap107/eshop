@@ -131,10 +131,6 @@ include 'config/nav.php';
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product category</div>";
                 }
-                if ($description == "") {
-                    $flag = 0;
-                    echo "<div class='alert alert-danger'>Please fill in your product description</div>";
-                }
                 if ($price == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your product price</div>";
@@ -142,6 +138,10 @@ include 'config/nav.php';
                 if ($manufacture_date == "") {
                     $flag = 0;
                     echo "<div class='alert alert-danger'>Please fill in your manufacture date</div>";
+                }
+                if ($promotion_price >= $price) {
+                    $flag = 0;
+                    echo  "<div class='alert alert-danger'>Promotion price can't be equal or more expensive than price</div>";
                 }
 
                 if ($flag == 1) {

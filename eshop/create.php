@@ -39,9 +39,17 @@ include 'config/database.php';
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 
-                if ($promotion_price > $price) {
+                if ($name == "" || $cid == "" || $price == "" || $manufacture_date == "") {
                     $flag = 0;
-                    echo  "<div class='alert alert-danger'>Promotion price can't be more expensive than price</div>";
+                    echo  "<div class='alert alert-danger'>Please fill in all the information</div>";
+                }
+                if ($promotion_price >= $price) {
+                    $flag = 0;
+                    echo  "<div class='alert alert-danger'>Promotion price can't be equal or more expensive than price</div>";
+                }
+                if ($cid == 0) {
+                    $flag = 0;
+                    echo  "<div class='alert alert-danger'>Please select product category</div>";
                 }
 
                 $query = "SELECT name FROM products where name = ?";
@@ -111,7 +119,7 @@ include 'config/database.php';
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control' minlength="1" required></textarea></td>
+                    <td><textarea name='description' class='form-control' minlength="1"></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
