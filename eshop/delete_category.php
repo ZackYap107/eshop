@@ -11,8 +11,7 @@ try {
     $stmt->bindParam(1, $id);
     $stmt->execute();
     $row = $stmt->rowCount();
-    if($row > 0)
-    {
+    if($row > 0) {
         header('Location: categories_list.php?action=notdeleted');
     }else{
         
@@ -29,13 +28,10 @@ try {
         }else{
             die('Unable to delete record.');
         }
-    }
-
-    
+    }   
 }
 // show error
 catch(PDOException $exception){
     die('ERROR: ' . $exception->getMessage());
 }
-
 ?>
