@@ -65,14 +65,6 @@ include 'config/nav.php';
             </table>
             <?php
 
-            /*$query = "SELECT orders.order_id, customer, order_date, total_amount
-            FROM orders ORDER BY orders.order_id ASC";
-            */
-            //$totalamount = $row['total_amount'];
-            //$stmt = $con->prepare($query);
-            //$stmt->execute();
-            //$stmt->bindParam(':categories', $categories);
-            // this is how to get number of rows returned
             $num = $stmt->rowCount();
     
             //check if more than 0 record found
@@ -103,35 +95,18 @@ include 'config/nav.php';
                 echo "<td>RM {$total}</td>";
                 $totalamount = $totalamount + $total;
                 echo "</tr>";
-                
                 }
-                echo "<table class='table table-hover table-responsive table-bordered col-5'>";
-                echo "<tr><th class='col-5'>Total Amount (RM)</th><td class='col-6'>RM {$totalamount}</td></tr>";
-                echo "</table>";
+                
+                //echo "<table class='table table-hover table-responsive table-bordered col-5'>";
+                //echo "<tr>";
+                //echo "<tr><th class='col-5'>Total Amount (RM)</th><td class='col-6'>RM {$totalamount}</td></tr>";
+                //echo "</table>";
+                //echo "</tr>";
             }
             // if no records found
             else {
                 echo "<div class='alert alert-danger'>No records found.</div>";
             }
-            /*
-                $stmt->execute();
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {  
-                    extract($row);
-                    echo "<table class='table table-hover table-responsive table-bordered class='col-5'>";
-                    echo "<tr><td class='col-5'>Product ID</td><td class='col-6'>{$pid}</td></tr>";
-                    echo "<tr><td class='col-5'>Product Name</td><td class='col-6'>{$pname}</td></tr>";
-                    echo "<tr><td class='col-5'>Quantity</td><td class='col-6'>{$quantity}</td></tr>";
-                    echo "<tr><td class='col-5'>Price</td><td class='col-6'>{$pprice}</td></tr>";
-                    $total = ($pprice * $quantity);
-                    echo "<tr><td>Total</td><td colspan='7'>{$total}</td></tr>";
-                    $totalamount = $totalamount + $total;
-                    echo "</table>";
-                }
-                
-                    echo "<table class='table table-hover table-responsive table-bordered col-5'>";
-                    echo "<tr><td class='col-5'>Total Amount</td><td class='col-6'>{$totalamount}</td></tr>";
-                    echo "</table>";
-            */
                 ?>
             <?php
         }
@@ -140,6 +115,11 @@ include 'config/nav.php';
             die('ERROR: ' . $exception->getMessage());
         }
         ?>
+        <tr>
+            <td colspan = "3">
+                <?php echo "<th>Total Amount (RM)</th><td class='col-3'>RM {$totalamount}</td>"; ?>
+            </td>
+        </tr>
         <tr>
             <td colspan = "6">
                 <a href='order_list.php' class='btn btn-danger'>Back to read Order List</a>

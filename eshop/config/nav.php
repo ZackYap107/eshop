@@ -36,6 +36,8 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="create.php">Create Product</a></li>
                             <li><a class="dropdown-item" href="readProducts.php">Read Products</a></li>
+                            <li><a class="dropdown-item" href="category.php">Create Category</a></li>
+                            <li><a class="dropdown-item" href="categories_list.php">Categories List</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -45,15 +47,6 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="customer.php">Register</a></li>
                             <li><a class="dropdown-item" href="readCustomers.php">Read Customers</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="category.php">Create Category</a></li>
-                            <li><a class="dropdown-item" href="categories_list.php">Categories List</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
